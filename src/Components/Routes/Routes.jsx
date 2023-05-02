@@ -5,6 +5,7 @@ import Login from "../Pages/Login/Login"
 import Account from "../Pages/Account/Account";
 import CadastroEnterprise from "../Pages/CadastroEnterprise/Cadastro";
 import CadastroWorker from "../Pages/CadastroWorker/Cadastro";
+import TabsWork from "../Tabs/TabWork";
 
 export default function Routes(){
 
@@ -36,6 +37,13 @@ export default function Routes(){
             <Stack.Screen
                 name="Conta"
                 component={Account}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
+                name="Tab"
+                component={TabsWork}
                 options={{
                     headerShown: false
                 }}
