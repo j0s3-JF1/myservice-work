@@ -55,7 +55,7 @@ export default function Login() {
             <Image source={require('../../../../assets/MyService_Logo.png')} style={styles.Logo} />
             <Text style={{
                 color: '#0A3DC2',
-                fontFamily: 'tahoma, arial, verdana',
+                fontFamily: 'Poppins_600SemiBold',
                 fontStyle: 'normal',
                 fontWeight: 'bold',
                 fontSize: 25,

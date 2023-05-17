@@ -10,7 +10,7 @@ import {
 } from "react-native-chart-kit";
 import Svg, { Circle } from 'react-native-svg';
 
-const Grafics = () => {
+const BarGrafic = () => {
 
     //Dimensionamento do gráfico
     const screenWidth = Dimensions.get("window").width;
@@ -20,12 +20,9 @@ const Grafics = () => {
         labels: ["January", "February", "March", "April", "May", "June"],
         datasets: [
             {
-                data: [20, 45, 28, 80, 99, 30],
-                color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
-                strokeWidth: 2
+                data: [20, 45, 28, 80, 99, 43]
             }
-        ],
-        legend: ["Rainy Days"]
+        ]
     };
 
     //Configuração ddo gráfico
@@ -45,22 +42,19 @@ const Grafics = () => {
             strokeWidth: '2',
             stroke: '#ffa726',
         },
-        
+
     };
 
     return (
         <View>
-            <LineChart
+            <BarChart
+                style={{width: '100%'}}
                 data={data}
                 width={screenWidth}
                 height={220}
                 yAxisLabel="$"
                 chartConfig={chartConfig}
-                bezier
-                style={{
-                    marginVertical: 8,
-                    borderRadius: 16,
-                }}
+                verticalLabelRotation={30}
             />
         </View>
     );
@@ -70,4 +64,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Grafics;
+export default BarGrafic;

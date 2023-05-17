@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
+import {useFonts, Poppins_600SemiBold, Poppins_400Regular, Poppins_500Medium} from '@expo-google-fonts/poppins';
 
 const styles = StyleSheet.create({
     container: {
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
 
     title: {
         color: '#0A3DC2',
-        fontFamily: 'Tahoma Regular font',
+        fontFamily: 'Poppins_600SemiBold',
         fontStyle: 'normal',
         fontWeight: '500',
         fontSize: 25,
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
         width: '85%',
         height: 50,
         fontSize: 18,
-        fontFamily: 'Tahoma Regular font',
+        fontFamily: 'Poppins_600SemiBold',
         fontStyle: 'normal',
         fontWeight: '500',
     },
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     },
 
     textButton: {
-        fontFamily: 'Tahoma Regular font',
+        fontFamily: 'Poppins_600SemiBold',
         fontStyle: 'normal',
         fontSize: 15,
         fontWeight: '500',
