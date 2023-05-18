@@ -11,6 +11,8 @@ import Premium from "../Pages/Premium/Premium";
 
 //Importe de componente
 import NewButton from "./NewButton/NewButton";
+import MenuStore from "../Pages/MenuStrore/MenuStore";
+import AddProduct from "../Pages/AddProduct/AddProduct";
 
 export default function TabsWork() {
 
@@ -48,8 +50,8 @@ export default function TabsWork() {
             }}
         />
         <Tab.Screen
-            name="Loja"
-            component={Store}
+            name="Add"
+            component={AddProduct}
             options={{
                 headerShown: false,
                 tabBarLabel: '',

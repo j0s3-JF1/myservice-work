@@ -6,6 +6,8 @@ import Account from "../Pages/Account/Account";
 import CadastroEnterprise from "../Pages/CadastroEnterprise/Cadastro";
 import CadastroWorker from "../Pages/CadastroWorker/Cadastro";
 import TabsWork from "../Tabs/TabWork";
+import MenuStore from "../Pages/MenuStrore/MenuStore";
+import ProductSpace from "../Pages/ProductSpace/ProductSpace";
 
 export default function Routes(){
 
@@ -44,6 +46,20 @@ export default function Routes(){
             <Stack.Screen
                 name="Tab"
                 component={TabsWork}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
+                name="MenuStore"
+                component={MenuStore}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
+                name="ProductSpace"
+                component={ProductSpace}
                 options={{
                     headerShown: false
                 }}

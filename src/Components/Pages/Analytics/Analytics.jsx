@@ -34,8 +34,17 @@ export default function Analytics() {
                 <Profile />
                 <Text style={{ fontSize: 25, fontWeight: 'bold', top: '1%' }}>Gabi Freitas</Text>
                 <Text style={{ fontSize: 15, fontWeight: '300', top: '1%' }}>Nail Designer</Text>
-                <View style={{ width: '90%', height: 2, backgroundColor: '#9F9999', top: '5%' }}></View>
-                <View style={{ top: '3%', flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{
+                    width: PixelRatio.getPixelSizeForLayoutSize(130),
+                    height: PixelRatio.getPixelSizeForLayoutSize(1),
+                    backgroundColor: '#9F9999',
+                    top: PixelRatio.getPixelSizeForLayoutSize(10),
+                }}></View>
+                <View style={{
+                    top: PixelRatio.getPixelSizeForLayoutSize(5),
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                }}>
                     <TouchableOpacity style={styles.buttonGrafic} disabled={changeScreen} onPress={toogleScreen}>
                         <Text style={{ color: '#FFF', fontWeight: '500' }}>Gráficos</Text>
                     </TouchableOpacity>
@@ -47,14 +56,12 @@ export default function Analytics() {
             <ScrollView style={{ top: PixelRatio.getPixelSizeForLayoutSize(120), }}>
                 <View style={{
                     width: '100%',
-                    height: 1100
+                    height: PixelRatio.getPixelSizeForLayoutSize(300)
                 }}>
                     {
                         changeScreen ?
                             <View>
                                 <Grafics />
-                                <PizzaGrafic />
-                                <BarGrafic/>
                             </View>
                             :
                             <Avaliate />
