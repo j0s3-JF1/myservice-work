@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { PixelRatio, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
         resizeMode: 'stretch',
         width: '80%',
         height: 60,
-        bottom: '12%',
     },
 
     title: {
@@ -25,14 +24,14 @@ const styles = StyleSheet.create({
         fontSize: 25,
         lineHeight: 33,
         fontVariant: 'small-caps',
-        top: 10,
+        top: PixelRatio.getPixelSizeForLayoutSize(7)
     },
 
     containerInput: {
-        top: 35,
+        top: PixelRatio.getPixelSizeForLayoutSize(15)
     },
 
-    nameArea: {
+    inputArea: {
         bottom: '5%',
         flexDirection: 'row',
         width: '80%',
@@ -41,56 +40,10 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         height: 50,
         alignItems: 'center',
+        margin: 5
     },
 
-    nameIcon: {
-        width: '15%',
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    secondNameArea: {
-        bottom: '4%',
-        flexDirection: 'row',
-        width: '80%',
-        backgroundColor: '#FFF',
-        elevation: 2,
-        borderRadius: 8,
-        height: 50,
-        alignItems: 'center',
-    },
-
-    secondIcon: {
-        width: '15%',
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    cnpjArea: {
-        bottom: '3%',
-        flexDirection: 'row',
-        width: '80%',
-        backgroundColor: '#FFF',
-        elevation: 2,
-        borderRadius: 8,
-        height: 50,
-        alignItems: 'center',
-    },
-
-    emailArea: {
-        bottom: '2%',
-        flexDirection: 'row',
-        width: '80%',
-        backgroundColor: '#FFF',
-        elevation: 2,
-        borderRadius: 8,
-        height: 50,
-        alignItems: 'center',
-    },
-
-    emailIcon: {
+    inputIcon: {
         width: '15%',
         height: 50,
         justifyContent: 'center',
@@ -98,7 +51,6 @@ const styles = StyleSheet.create({
     },
 
     passArea: {
-        bottom: '1%',
         flexDirection: 'row',
         width: '70%',
         backgroundColor: '#FFF',
@@ -106,6 +58,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         height: 50,
         alignItems: 'center',
+        margin: 5
     },
 
     lockIcon: {
@@ -116,7 +69,6 @@ const styles = StyleSheet.create({
     },
 
     cofirmArea: {
-        bottom: '0%',
         flexDirection: 'row',
         width: '70%',
         backgroundColor: '#FFF',
@@ -124,6 +76,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         height: 50,
         alignItems: 'center',
+        margin: 5
     },
 
     Input: {
@@ -152,7 +105,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         elevation: 2,
-        top: 100,
+        top: PixelRatio.getPixelSizeForLayoutSize(15)
     },
 
     textButton: {
@@ -166,8 +119,8 @@ const styles = StyleSheet.create({
     },
 
     textCadastro: {
-        top: '40%',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        top: PixelRatio.getPixelSizeForLayoutSize(17)
     },
 })
 

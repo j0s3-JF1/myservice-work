@@ -17,30 +17,32 @@ export default function CadastroWorker() {
     const [nome, setNome] = useState("");
     const [sobrenome, setSobrenome] = useState("");
     const [cpf, setCPF] = useState("");
+    const [telefone, setTelefone] = useState("")
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [confirma, setConfirma] = useState("");
+    const [instagram, setInsta] = useState("")
 
     function Cadastro() {
-        if (nome == "" || sobrenome == "" || cpf == "" || email == "" || senha == "" || confirma == "") {
+
+        const body = { nome, sobrenome, cpf, telefone, instagram , email, senha }
+
+        if (nome == "" || sobrenome == "" || cpf == "" || telefone == "" || email == "" || senha == "" || confirma == "") {
             alert('Preencha todos os campos!');
         } else {
             if (senha == confirma) {
-
-                const body = { nome, sobrenome, cpf, email, senha }
-
                 fetch('https://myserviceserver.azurewebsites.net/api/trabalhador', {
-                    method: 'POST',
+                    method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)
                 })
-                    .then(response => {
+                    .then(() => {
                         alert('Cadastro efetuado com sucesso!')
                     })
                     .then(() => {
                         navigation.navigate('Login')
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         console.error('Usuario não cadastrado!', err);
                         alert('Usuario não cadastrado');
                     })
@@ -62,7 +64,7 @@ export default function CadastroWorker() {
                 fontSize: 25,
                 lineHeight: 33,
                 fontVariant: 'small-caps',
-                bottom: '11%'
+                bottom: '5%'
             }}>
                 AUTONÔMO
             </Text>
@@ -99,6 +101,21 @@ export default function CadastroWorker() {
                         placeholder='CPF'
                         placeholderTextColor='#131212'
                         onChangeText={(texto) => setCPF(texto)}
+                        maxLength={11}
+                        keyboardType="numeric"
+                    />
+                </View>
+                <View style={styles.cpfArea}>
+                    <View style={styles.secondIcon}>
+                        <AntDesign name="user" size={24} color="blue" />
+                    </View>
+                    <TextInput
+                        style={styles.Input}
+                        placeholder='Celular'
+                        placeholderTextColor='#131212'
+                        onChangeText={(texto) => setTelefone(texto)}
+                        maxLength={11}
+                        keyboardType="numeric"
                     />
                 </View>
                 <View style={styles.emailArea}>

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         resizeMode: 'stretch',
         width: '80%',
         height: 60,
-        bottom: '11%',
+        bottom: '5%',
     },
 
     title: {
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         height: 50,
         alignItems: 'center',
+        margin: 2
     },
 
     emailArea: {
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         elevation: 2,
-        top: 100,
+        top: 55,
     },
 
     textButton: {
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     },
 
     textCadastro: {
-        top: '40%',
+        top: '19%',
         flexDirection: 'row'
     },
 })

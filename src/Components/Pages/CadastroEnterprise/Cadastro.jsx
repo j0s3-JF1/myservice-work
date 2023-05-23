@@ -18,33 +18,34 @@ export default function CadastroEnterprise() {
     const [nome, setNome] = useState("");
     const [empresa, setEmpresa] = useState("");
     const [cnpj, setCNPJ] = useState("");
+    const [telefone, setTelefone] = useState("");
+    const [instagram, setInsta] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [confirma, setConfirma] = useState("");
 
     function Cadastro() {
+        const body = { nome, empresa, cnpj, telefone, instagram, email, senha }
         if (nome == "" || empresa == "" || cnpj == "" || email == "" || senha == "" || confirma == "") {
             alert('Preencha todos os campos!');
         } else {
             if (senha == confirma) {
-
-                const body = { nome, empresa, cnpj, email, senha }
 
                 fetch('https://myserviceserver.azurewebsites.net/api/empresa', {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)
                 })
-                .then( response => {
-                    alert('Cadastro efetuado com sucesso!')
-                })
-                .then(() => {
-                    navigation.navigate('Login')
-                })
-                .catch( err => {
-                    console.error('Usuario não cadastrado!', err);
-                    alert('Usuario não cadastrado');
-                })
+                    .then(response => {
+                        alert('Cadastro efetuado com sucesso!')
+                    })
+                    .then(() => {
+                        navigation.navigate('Login')
+                    })
+                    .catch(err => {
+                        console.error('Usuario não cadastrado!', err);
+                        alert('Usuario não cadastrado');
+                    })
 
             } else {
                 alert("As senhas estão diferentes, Por favor corrija-os");
@@ -63,14 +64,13 @@ export default function CadastroEnterprise() {
                 fontSize: 25,
                 lineHeight: 33,
                 fontVariant: 'small-caps',
-                bottom: '11%'
             }}>
                 EMPRESA
             </Text>
             <Text style={styles.title}>CADASTRAR-SE</Text>
             <View style={styles.containerInput}>
-                <View style={styles.nameArea}>
-                    <View style={styles.nameIcon}>
+                <View style={styles.inputArea}>
+                    <View style={styles.inputIcon}>
                         <AntDesign name="user" size={24} color="blue" />
                     </View>
                     <TextInput
@@ -80,8 +80,8 @@ export default function CadastroEnterprise() {
                         onChangeText={(texto) => setNome(texto)}
                     />
                 </View>
-                <View style={styles.secondNameArea}>
-                    <View style={styles.secondIcon}>
+                <View style={styles.inputArea}>
+                    <View style={styles.inputIcon}>
                         <AntDesign name="user" size={24} color="blue" />
                     </View>
                     <TextInput
@@ -91,8 +91,8 @@ export default function CadastroEnterprise() {
                         onChangeText={(texto) => setEmpresa(texto)}
                     />
                 </View>
-                <View style={styles.cnpjArea}>
-                    <View style={styles.secondIcon}>
+                <View style={styles.inputArea}>
+                    <View style={styles.inputIcon}>
                         <FontAwesome name="building-o" size={24} color="blue" />
                     </View>
                     <TextInput
@@ -100,10 +100,25 @@ export default function CadastroEnterprise() {
                         placeholder='CNPJ'
                         placeholderTextColor='#131212'
                         onChangeText={(texto) => setCNPJ(texto)}
+                        maxLength={14}
+                        keyboardType="numeric"
                     />
                 </View>
-                <View style={styles.emailArea}>
-                    <View style={styles.emailIcon}>
+                <View style={styles.inputArea}>
+                    <View style={styles.inputIcon}>
+                        <AntDesign name="phone" size={24} color="blue" />
+                    </View>
+                    <TextInput
+                        style={styles.Input}
+                        placeholder='Telefone'
+                        placeholderTextColor='#131212'
+                        onChangeText={(texto) => setTelefone(texto)}
+                        maxLength={11}
+                        keyboardType="numeric"
+                    />
+                </View>
+                <View style={styles.inputArea}>
+                    <View style={styles.inputIcon}>
                         <AntDesign name="mail" size={24} color="blue" />
                     </View>
                     <TextInput
@@ -113,6 +128,7 @@ export default function CadastroEnterprise() {
                         onChangeText={(texto) => setEmail(texto)}
                     />
                 </View>
+
                 <View style={styles.passArea}>
                     <View style={styles.lockIcon}>
                         <AntDesign name="lock1" size={25} color="blue" />

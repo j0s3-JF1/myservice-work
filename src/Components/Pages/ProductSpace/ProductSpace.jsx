@@ -1,5 +1,5 @@
 import { AntDesign, FontAwesome, SimpleLineIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -9,15 +9,49 @@ import {
     StyleSheet,
     TextInput,
 } from "react-native";
+import { SelectList } from "react-native-dropdown-select-list";
+import { Picker } from "@react-native-picker/picker";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ProductSpace() {
+
+    //Navegação
+    const navigation = useNavigation();
 
     //envio de dados
     const [nome, setNome] = useState("");
     const [desc, setDesc] = useState("");
     const [preco, setPreco] = useState("");
+    const [inputHeight, setHeight] = useState("");
+    const [categoria, setCategoria] = useState("");
+    const [selectedItem, setSelectedItem] = useState(null);
 
-    fetch('')
+
+    
+
+
+    //Cadastro de Produto
+
+    function Cadastro() {
+        const id_trabalhador = 1
+        const body = { nome, desc, categoria, preco, id_trabalhador }
+
+        fetch('https://myserviceserver.azurewebsites.net/api/ProdutoT_', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        })
+            .then((response) => { 
+                alert('Cadastro efetuado com sucesso!')
+            })
+            .then(() => {
+                navigation.navigate('Analytics')
+            })
+            .catch((err) => {
+                console.error('Produto não cadastrado!', err);
+                alert('Produto não cadastrado');
+            })
+    }
 
     return (
         <View style={styles.container}>
@@ -58,32 +92,67 @@ export default function ProductSpace() {
             >
                 Escreva os dados do Produto abaixo:
             </Text>
-            <View style={{top: PixelRatio.getPixelSizeForLayoutSize(20)}}>
+            <View style={{ top: PixelRatio.getPixelSizeForLayoutSize(20) }}>
                 <View style={styles.textInp}>
-                    <View style={styles.texIcon}>
-                        <SimpleLineIcons name="handbag" size={24} color="blue" />
-                    </View>
-                    <TextInput style={styles.Input} placeholder='Nome' placeholderTextColor='#131212' />
-                </View>
-                <View style={styles.textInpdesc}>
                     <View style={styles.texIcon}>
                         <SimpleLineIcons name="handbag" size={24} color="blue" />
                     </View>
                     <TextInput
-                        style={styles.Inputdesc}
-                        placeholder='Descrição'
+                        style={styles.Input}
+                        placeholder='Nome'
                         placeholderTextColor='#131212'
-                        editable
-                        multiline
-                        numberOfLine={5}
-                        maxLength={200}
+                        onChangeText={(texto) => setNome(texto)}
                     />
                 </View>
+                <View style={{
+                    flexDirection: 'row',
+                    width: '80%',
+                    backgroundColor: '#FFF',
+                    elevation: 2,
+                    borderRadius: 8,
+                    height: 100,
+                    alignItems: 'center',
+                    bottom: '5%',
+                    margin: 5,
+                }}>
+                    <View style={styles.texIcon}>
+                        <SimpleLineIcons name="handbag" size={24} color="blue" />
+                    </View>
+                    <TextInput
+                        style={{
+                            borderRadius: 8,
+                            backgroundColor: '#FFF',
+                            width: '85%',
+                            height: 100,
+                            fontSize: 18,
+                            fontFamily: 'Poppins_600SemiBold',
+                            fontStyle: 'normal',
+                            fontWeight: '500',
+                        }}
+                        placeholder='Descrição'
+                        placeholderTextColor='#131212'
+                        multiline
+                        onContentSizeChange={({
+                            nativeEvent: {
+                                contentSize: { inputHeight }
+                            }
+                        }) => {
+                            setHeight(inputHeight)
+                        }}
+                        onChangeText={(texto) => setDesc(texto)}
+                    />
+                </View>
+                
                 <View style={styles.textInp}>
                     <View style={styles.texIcon}>
                         <FontAwesome name="dollar" size={24} color="blue" />
                     </View>
-                    <TextInput style={styles.Input} placeholder='Preço' placeholderTextColor='#131212' />
+                    <TextInput
+                        style={styles.Input}
+                        placeholder='Preço'
+                        placeholderTextColor='#131212'
+                        onChangeText={(texto) => setPreco(texto)}
+                    />
                 </View>
             </View>
             <TouchableOpacity
@@ -97,6 +166,7 @@ export default function ProductSpace() {
                     borderRadius: 20,
                     top: PixelRatio.getPixelSizeForLayoutSize(20)
                 }}
+                onPress={Cadastro}
             >
                 <Text
                     style={{
@@ -148,35 +218,5 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins_600SemiBold',
         fontStyle: 'normal',
         fontWeight: '500',
-    },
-
-    textInpdesc: {
-        flexDirection: 'row',
-        width: '80%',
-        backgroundColor: '#FFF',
-        elevation: 2,
-        borderRadius: 8,
-        height: 250,
-        bottom: '5%',
-        margin: 5,
-    },
-
-    texIcondesc: {
-        width: '15%',
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    Inputdesc: {
-        borderRadius: 8,
-        backgroundColor: '#FFF',
-        width: '85%',
-        height: 250,
-        fontSize: 18,
-        fontFamily: 'Poppins_600SemiBold',
-        fontStyle: 'normal',
-        fontWeight: '500',
-        paddingBottom: PixelRatio.getPixelSizeForLayoutSize(72)
     },
 })
