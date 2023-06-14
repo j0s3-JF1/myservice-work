@@ -9,7 +9,7 @@ import styles from "./Style";
 export default function Login() {
 
     //Importação de fontes
-    
+
 
     //Constate de navegação
     const navigation = useNavigation();
@@ -103,8 +103,14 @@ export default function Login() {
                     value={!isEnable}
                     style={{ right: '60%' }}
                 />
-                <Text style={{ top: '3%', right:'60%' }}>Lembre-me</Text>
-                <TouchableOpacity style={{ top: '3%', left: '60%'}}>
+                <Text style={{ top: '3%', right: '60%' }}>Lembre-me</Text>
+                <TouchableOpacity
+                    style={{
+                        top: '3%',
+                        left: '60%'
+                    }}
+                    onPress={() => navigation.navigate('Forgot')}
+                >
                     <Text>Esqueceu a senha?</Text>
                 </TouchableOpacity>
             </View>

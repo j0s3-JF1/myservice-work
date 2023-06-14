@@ -13,7 +13,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 
-export default function ProductSpace() {
+export default function ServiceSpace() {
 
     //Navegação
     const navigation = useNavigation();
@@ -26,7 +26,7 @@ export default function ProductSpace() {
     const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
-        fetch('https://my-service-server.azurewebsites.net/api/categoriaP_', {
+        fetch('https://my-service-server.azurewebsites.net/api/categoriaS_', {
             method: 'GET',
         })
             .then((response) => response.json())
@@ -74,57 +74,45 @@ export default function ProductSpace() {
             })
     })
 
-    function teste(){
-        if (acessos.acesso == 'Empresa') {
-            console.log(acessos.acesso,true)
-        } else{
-            console.log(acessos.acesso, false)
-        }
-    }
 
-    
     //Cadastro de Produto
-    
     function Cadastro() {
 
         const body = { nome, descricao: desc, categoria: selectedItem, preco, id_work }
 
         if (acessos.acesso == 'Empresa') {
 
-            fetch('https://my-service-server.azurewebsites.net/api/ProdutoE_', {
+            fetch('https://my-service-server.azurewebsites.net/api/ServicoE_', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body),
             })
                 .then((response) => {
-                    alert('Cadastro efetuado com sucesso!', acessos.acesso)
+                    alert('Cadastro efetuado com sucesso!')
                 })
                 .then(() => {
                     navigation.navigate('Analytics')
                 })
                 .catch((err) => {
-                    console.error('Produto não cadastrado!', err);
-                    alert('Produto não cadastrado');
+                    console.error('Servico não cadastrado!', err);
+                    alert('Servico não cadastrado');
                 })
-
-        } else if (acessos.acesso == 'Trabalhador') {
-            fetch('https://my-service-server.azurewebsites.net/api/ProdutoT_', {
+        } else {
+            fetch('https://my-service-server.azurewebsites.net/api/ServicoT_', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body),
             })
                 .then((response) => {
-                    alert('Cadastro efetuado com sucesso!', acessos.acesso)
+                    alert('Cadastro efetuado com sucesso!')
                 })
                 .then(() => {
                     navigation.navigate('Analytics')
                 })
                 .catch((err) => {
-                    console.error('Produto não cadastrado!', err);
-                    alert('Produto não cadastrado');
+                    console.error('Servico não cadastrado!', err);
+                    alert('Servico não cadastrado');
                 })
-        } else{
-            alert('Erro')
         }
     }
 
@@ -165,7 +153,7 @@ export default function ProductSpace() {
                     top: PixelRatio.getPixelSizeForLayoutSize(10)
                 }}
             >
-                Escreva os dados do Produto abaixo:
+                Escreva os dados do Servico abaixo:
             </Text>
             <View style={{ top: PixelRatio.getPixelSizeForLayoutSize(20) }}>
                 <View style={styles.textInp}>

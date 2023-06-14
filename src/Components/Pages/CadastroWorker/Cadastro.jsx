@@ -21,17 +21,18 @@ export default function CadastroWorker() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [confirma, setConfirma] = useState("");
-    const [instagram, setInsta] = useState("")
+    const [instagram, setInsta] = useState("");
+    const acesso = "Trabalhador";
 
     function Cadastro() {
 
-        const body = { nome, sobrenome, cpf, telefone, instagram , email, senha }
+        const body = { nome, empresa: sobrenome, cpf_cnpj: cpf, telefone, instagram , email, senha, acesso }
 
         if (nome == "" || sobrenome == "" || cpf == "" || telefone == "" || email == "" || senha == "" || confirma == "") {
             alert('Preencha todos os campos!');
         } else {
             if (senha == confirma) {
-                fetch('https://myserviceserver.azurewebsites.net/api/trabalhador', {
+                fetch('https://my-service-server.azurewebsites.net/api/trabalhador', {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)

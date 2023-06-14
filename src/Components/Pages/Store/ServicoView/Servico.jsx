@@ -1,27 +1,28 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, TouchableOpacity, PixelRatio, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, PixelRatio } from "react-native";
 
-const Trabalho = ({ work }) => {
+const Servico = ({ service }) => {
 
-    //Constante para navegação de parametros
+    //Navegação de telas e de parametros
     const navigation = useNavigation();
-    //Parametro
+
+    //Parametros
     const params = {
-        nome: work.produto_Nome,
-        categoria: work.produto_Categoria,
-        descricao: work.produto_Descricao,
-        preco: work.produto_Preco,
+        nome: service.servico_Nome,
+        categoria: service.servico_Categoria,
+        descricao: service.servico_Descricao,
+        preco: service.servico_Preco,
     }
 
-    return (
+
+    return(
         <TouchableOpacity
             style={styles.button}
-            activeOpacity={0.8}
-            onPress={() => navigation.navigate('ProductView', params)}
+            onPress={() => navigation.navigate('ServiceView', params)}
         >
-            <Text>{work.produto_Nome}</Text>
-            <Text>{work.produto_Categoria}</Text>
+            <Text>{service.servico_Nome}</Text>
+            <Text>{service.servico_Categoria}</Text>
         </TouchableOpacity>
     );
 }
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         borderRadius: 10,
         marginTop: PixelRatio.getPixelSizeForLayoutSize(5)
-    },
-})
+    }
+});
 
-export default Trabalho;
+export default Servico;

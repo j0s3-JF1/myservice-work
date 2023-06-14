@@ -17,21 +17,24 @@ export default function CadastroEnterprise() {
     //Cadastro input
     const [nome, setNome] = useState("");
     const [empresa, setEmpresa] = useState("");
-    const [cnpj, setCNPJ] = useState("");
+    const [doc, setDoc] = useState("");
     const [telefone, setTelefone] = useState("");
     const [instagram, setInsta] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [confirma, setConfirma] = useState("");
+    const acesso = "Empresa";
 
     function Cadastro() {
-        const body = { nome, empresa, cnpj, telefone, instagram, email, senha }
-        if (nome == "" || empresa == "" || cnpj == "" || email == "" || senha == "" || confirma == "") {
+
+        const body = { nome, empresa, cpf_cnpj: doc, telefone, instagram, email, senha, acesso }
+
+        if (nome == "" || empresa == "" || doc == "" || email == "" || senha == "" || confirma == "") {
             alert('Preencha todos os campos!');
         } else {
             if (senha == confirma) {
 
-                fetch('https://myserviceserver.azurewebsites.net/api/empresa', {
+                fetch('https://my-service-server.azurewebsites.net/api/trabalhador', {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)
@@ -99,7 +102,7 @@ export default function CadastroEnterprise() {
                         style={styles.Input}
                         placeholder='CNPJ'
                         placeholderTextColor='#131212'
-                        onChangeText={(texto) => setCNPJ(texto)}
+                        onChangeText={(texto) => setDoc(texto)}
                         maxLength={14}
                         keyboardType="numeric"
                     />

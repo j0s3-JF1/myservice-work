@@ -1,36 +1,15 @@
-import React, { useState } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-    View,
-    Text,
-    Image,
-    StyleSheet,
-    PixelRatio,
-    TouchableOpacity,
-    Linking,
-    Modal,
-    SafeAreaView
-} from "react-native";
-import { AntDesign, Entypo, FontAwesome, Ionicons } from "@expo/vector-icons";
-import ImageProduct from "../../ImageProduct/ImageProduct";
+import { useRoute } from "@react-navigation/native";
+import React from "react";
+import { View, Text, StyleSheet, PixelRatio, Linking, TouchableOpacity, Image } from "react-native";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
-const ProductView = () => {
+const ServiceView = () => {
 
-    //Navegação
-    const navigation = useNavigation();
-
-    //rotas
+    //Rotas do parametro
     const route = useRoute();
 
-    //parametros
-    const { nome, categoria, descricao, preco } = route.params
-
-    const params = {
-        nome: nome,
-        descricao: descricao,
-        categoria: categoria,
-        preco: preco
-    }
+    //Parametro
+    const { nome, categoria, descricao, preco } = route.params;
 
     //rota para link de rede social
     const LinkInstagram = () => {
@@ -41,48 +20,17 @@ const ProductView = () => {
         Linking.openURL('https://chat.whatsapp.com/Be0eLWjMPXG22s35ZozdqO');
     }
 
-
     return (
         <View style={styles.container}>
-            <TouchableOpacity
-                style={{
-                    bottom: PixelRatio.getPixelSizeForLayoutSize(70),
-                    left: PixelRatio.getPixelSizeForLayoutSize(60)
-                }}
-                activeOpacity={0.5}
-                onPress={() => navigation.navigate('EditProduct', params)}
-            >
-                <Entypo
-                    name="edit"
-                    color={'#F8F8F8'}
-                    size={25}
-                />
-            </TouchableOpacity>
-            <View
-                style={{
-                    bottom: PixelRatio.getPixelSizeForLayoutSize(30)
-                }}
-            >
-                <ImageProduct />
-            </View>
-            <View
-                style={{
-                    justifyContent: 'flex-start',
-                    width: '100%',
-                    left: PixelRatio.getPixelSizeForLayoutSize(20),
-                    bottom: PixelRatio.getPixelSizeForLayoutSize(10)
-                }}
-            >
-                <Text style={styles.titleNome}>
-                    {nome}
-                </Text>
-                <Text style={styles.titleDesc}>
-                    {descricao}
-                </Text>
-                <Text style={styles.titlePrice}>
-                    R$ {preco}
-                </Text>
-            </View>
+            <Text style={styles.titleNome}>
+                {nome}
+            </Text>
+            <Text style={styles.titleDesc}>
+                {descricao}
+            </Text>
+            <Text style={styles.titlePrice}>
+                R$ {preco}
+            </Text>
             <Image
                 source={require('../../../../assets/ellipse2.png')}
                 style={{
@@ -106,7 +54,7 @@ const ProductView = () => {
                 style={{
                     flexDirection: 'row',
                     justifyContent: 'space-evenly',
-                    top: PixelRatio.getPixelSizeForLayoutSize(80),
+                    top: PixelRatio.getPixelSizeForLayoutSize(110),
                     width: '30%',
                 }}
             >
@@ -146,7 +94,7 @@ const ProductView = () => {
                 </TouchableOpacity>
             </View>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -163,6 +111,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         width: '70%',
         fontSize: 25,
+
     },
 
     titleDesc: {
@@ -181,4 +130,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default ProductView;
+export default ServiceView;

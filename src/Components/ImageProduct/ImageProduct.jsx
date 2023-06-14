@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Image, PixelRatio } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 
-const Profile = () => {
+const ImageProduct = () => {
 
     const [image, setImage] = useState(null);
 
@@ -22,15 +22,6 @@ const Profile = () => {
         }
     };
 
-    const uploadImage = () => {
-        const formData = new FormData();
-        formData.append('image', {
-            uri: 'data:image/jpeg;base64,${image}',
-            type: 'image/jpeg',
-            name: 'image.jpg'
-        })
-    }
-
     return (
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity style={styles.profileButton} onPress={pickImage}>
@@ -43,8 +34,8 @@ const Profile = () => {
 const styles = StyleSheet.create({
 
     profileButton: {
-        width: 110,
-        height: 110,
+        width: PixelRatio.getPixelSizeForLayoutSize(55),
+        height: PixelRatio.getPixelSizeForLayoutSize(55),
         elevation: 5,
         borderRadius: 110,
         backgroundColor: '#FFF',
@@ -54,10 +45,10 @@ const styles = StyleSheet.create({
 
     profile: {
         resizeMode: 'stretch',
-        width: 100,
-        height: 100,
+        width: PixelRatio.getPixelSizeForLayoutSize(45),
+        height: PixelRatio.getPixelSizeForLayoutSize(45),
         borderRadius: 50
     },
 });
 
-export default Profile;
+export default ImageProduct;

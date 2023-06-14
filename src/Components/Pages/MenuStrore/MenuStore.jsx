@@ -57,7 +57,10 @@ export default function MenuStore() {
                     flexDirection: 'row',
                 }}
             >
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProductSpace')}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => navigation.navigate('ProductSpace')}
+                >
                     <View
                         style={{
                             width: PixelRatio.getPixelSizeForLayoutSize(40),
@@ -81,7 +84,10 @@ export default function MenuStore() {
                         Produto
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => navigation.navigate('ServiceSpace')}
+                >
                     <View
                         style={{
                             width: PixelRatio.getPixelSizeForLayoutSize(40),
