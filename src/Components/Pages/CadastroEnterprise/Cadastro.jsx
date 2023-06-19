@@ -24,10 +24,11 @@ export default function CadastroEnterprise() {
     const [senha, setSenha] = useState("");
     const [confirma, setConfirma] = useState("");
     const acesso = "Empresa";
+    const imagem = "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
 
     function Cadastro() {
 
-        const body = { nome, empresa, cpf_cnpj: doc, telefone, instagram, email, senha, acesso }
+        const body = { nome, empresa, cpf_cnpj: doc, telefone, instagram, email, senha, acesso, imagem }
 
         if (nome == "" || empresa == "" || doc == "" || email == "" || senha == "" || confirma == "") {
             alert('Preencha todos os campos!');

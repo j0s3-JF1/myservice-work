@@ -1,5 +1,5 @@
-import { AntDesign } from "@expo/vector-icons";
-import React, { useState } from "react";
+import { AntDesign, Entypo } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Image,
@@ -9,9 +9,11 @@ import {
     TouchableOpacity,
     TextInput
 } from "react-native";
-
-import ImageProduct from "../../../ImageProduct/ImageProduct";
+import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useRoute } from "@react-navigation/native";
+
+//Importação de Hook
+import { AcessoHook } from "../../../Hook/Acesso/Acesso";
 
 const EditProduct = () => {
 
@@ -23,6 +25,8 @@ const EditProduct = () => {
 
     const { nome, descricao, categoria, preco } = route.params;
 
+    const { acessos } = AcessoHook();
+
     //Tamanho da input
     const [inputHeight, setHeight] = useState("");
 
@@ -31,6 +35,24 @@ const EditProduct = () => {
     const [novadescricao, setNovaDescricao] = useState(descricao);
     const [novacategoria, setNovaCategoria] = useState(categoria);
     const [novopreco, setNovoPreco] = useState(preco);
+    const [image, setImage] = useState("");
+
+    //Imagem
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    };
 
     const DescricaoNova = (novoTexto) => {
         setNovaDescricao(novoTexto);
@@ -48,6 +70,13 @@ const EditProduct = () => {
         setNovoPreco(novoTexto);
     }
 
+    function teste() {
+        console.log(body);
+    }
+
+    //Id do usuario
+    const id_user = 1;
+
     //Atualização de campos
     const id = 1;
     const body = {
@@ -55,25 +84,78 @@ const EditProduct = () => {
         nome: novonome,
         descricao: novadescricao,
         categoria: novacategoria,
-        preco: novopreco
+        preco: novopreco,
+        imagem: image
     }
 
+
+
     function Atualizar() {
-        fetch('https://my-service-server.azurewebsites.net/api/empresa', {
-            method: 'PUT',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body)
-        })
-            .then((response) => {
-                alert('Dados Atualizados!')
+        if (acessos.acesso == 'Empresa') {
+            fetch('https://my-service-server.azurewebsites.net/api/ProdutoE_', {
+                method: 'PUT',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
             })
-            .then(() => {
-                navigation.navigate('Store')
+                .then((response) => {
+                    alert('Dados Atualizados!')
+                })
+                .then(() => {
+                    navigation.navigate('Store')
+                })
+                .catch((err) => {
+                    console.log(err);
+                    alert('Dados não atualizados, erro');
+                })
+        } else {
+            fetch('https://my-service-server.azurewebsites.net/api/ProdutoT_', {
+                method: 'PUT',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
             })
-            .catch((err) => {
-                console.log(err);
-                alert('Dados não atualizados, erro');
+                .then((response) => {
+                    alert('Dados Atualizados!')
+                })
+                .then(() => {
+                    navigation.navigate('Store')
+                })
+                .catch((err) => {
+                    console.log(err);
+                    alert('Dados não atualizados, erro');
+                })
+        }
+    }
+
+    async function Delete() {
+        if (acessos.acesso == 'Empresa') {
+            fetch('https://my-service-server.azurewebsites.net/api/ProdutoE_/' + id, {
+                method: 'DELETE',
             })
+                .then((response) => {
+                    alert('Produto Apagado com sucesso')
+                })
+                .then(() => {
+                    navigation.navigate('Store')
+                })
+                .catch((err) => {
+                    console.log(err);
+                    alert('Produto não atualizado, erro');
+                })
+        } else {
+            fetch('https://my-service-server.azurewebsites.net/api/ProdutoT_/' + id, {
+                method: 'DELETE',
+            })
+                .then((response) => {
+                    alert('Produto Apagado com sucesso')
+                })
+                .then(() => {
+                    navigation.navigate('Store')
+                })
+                .catch((err) => {
+                    console.log(err);
+                    alert('Produto não atualizado, erro');
+                })
+        }
     }
 
 
@@ -85,7 +167,25 @@ const EditProduct = () => {
                     bottom: PixelRatio.getPixelSizeForLayoutSize(170),
                 }}
             >
-                <ImageProduct />
+                <TouchableOpacity
+                    style={{
+                        bottom: PixelRatio.getPixelSizeForLayoutSize(30),
+                        left: PixelRatio.getPixelSizeForLayoutSize(80)
+                    }}
+                    onPress={Delete}
+                    activeOpacity={0.5}
+                >
+                    <Entypo
+                        name="trash"
+                        color={'#F8F8F8'}
+                        size={25}
+                    />
+                </TouchableOpacity>
+                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <TouchableOpacity style={styles.profileButton} onPress={pickImage}>
+                        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 100 }} />}
+                    </TouchableOpacity>
+                </View>
             </View>
             <Image
                 source={require('../../../../../assets/elipse3.png')}
@@ -123,7 +223,7 @@ const EditProduct = () => {
                         fontSize: 25,
                     }}
                     value={novonome}
-                    onChangeText={NomeNovo}
+                    onChangeText={(texto) => NomeNovo(texto)}
                     multiline
                     onContentSizeChange={({
                         nativeEvent: {
@@ -142,7 +242,7 @@ const EditProduct = () => {
                         fontSize: 20,
                     }}
                     value={novacategoria}
-                    onChangeText={CategoriaNova}
+                    onChangeText={(texto) => CategoriaNova(texto)}
                     multiline
                     onContentSizeChange={({
                         nativeEvent: {
@@ -161,7 +261,7 @@ const EditProduct = () => {
                         width: '70%'
                     }}
                     value={novadescricao}
-                    onChangeText={DescricaoNova}
+                    onChangeText={(texto) => DescricaoNova(texto)}
                     multiline
                     onContentSizeChange={({
                         nativeEvent: {
@@ -216,6 +316,23 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#0A3DC2'
+    },
+
+    profileButton: {
+        width: PixelRatio.getPixelSizeForLayoutSize(55),
+        height: PixelRatio.getPixelSizeForLayoutSize(55),
+        elevation: 5,
+        borderRadius: 110,
+        backgroundColor: '#FFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    profile: {
+        resizeMode: 'stretch',
+        width: PixelRatio.getPixelSizeForLayoutSize(45),
+        height: PixelRatio.getPixelSizeForLayoutSize(45),
+        borderRadius: 50
     },
 });
 

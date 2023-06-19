@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 const Profile = () => {
 
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState("");
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -15,26 +15,17 @@ const Profile = () => {
             quality: 1,
         });
 
-        console.log(result);
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
+        if (result.canceled) {
+            return
         }
-    };
 
-    const uploadImage = () => {
-        const formData = new FormData();
-        formData.append('image', {
-            uri: 'data:image/jpeg;base64,${image}',
-            type: 'image/jpeg',
-            name: 'image.jpg'
-        })
-    }
+        setImage(result.assets[0].uri);
+    };
 
     return (
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity style={styles.profileButton} onPress={pickImage}>
-                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 100 }} />}
+                {image && <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 100 }} />}
             </TouchableOpacity>
         </View>
     );

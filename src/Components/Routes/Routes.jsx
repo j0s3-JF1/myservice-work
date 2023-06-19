@@ -17,6 +17,8 @@ import ProductView from "../Pages/ProductView/ProductView";
 import ServiceView from "../Pages/ServiceView/ServiceView";
 import EditProduct from "../Pages/ProductView/EditProduct/EditProduct";
 import Edit from "../Pages/MenuEdit/Edit/Edit";
+import Analytics from "../Pages/Analytics/Analytics";
+import AddProduct from "../Pages/AddProduct/AddProduct";
 
 export default function Routes(){
 

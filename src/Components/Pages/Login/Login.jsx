@@ -8,7 +8,10 @@ import styles from "./Style";
 
 export default function Login() {
 
-    //Importação de fontes
+    //Parametros
+    const params = {
+        nome: 'José',
+    }
 
 
     //Constate de navegação
@@ -46,7 +49,7 @@ export default function Login() {
             alert('Preencha os campos!');
         }
         else {
-            navigation.navigate('Tab');
+            navigation.navigate('Tab', params);
         }
     }
 

@@ -23,10 +23,11 @@ export default function CadastroWorker() {
     const [confirma, setConfirma] = useState("");
     const [instagram, setInsta] = useState("");
     const acesso = "Trabalhador";
+    const imagem = "https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png";
 
     function Cadastro() {
 
-        const body = { nome, empresa: sobrenome, cpf_cnpj: cpf, telefone, instagram , email, senha, acesso }
+        const body = { nome, empresa: sobrenome, cpf_cnpj: cpf, telefone, instagram , email, senha, acesso, imagem }
 
         if (nome == "" || sobrenome == "" || cpf == "" || telefone == "" || email == "" || senha == "" || confirma == "") {
             alert('Preencha todos os campos!');

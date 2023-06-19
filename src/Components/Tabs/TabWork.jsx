@@ -13,6 +13,7 @@ import Premium from "../Pages/Premium/Premium";
 import NewButton from "./NewButton/NewButton";
 import MenuStore from "../Pages/MenuStrore/MenuStore";
 import AddProduct from "../Pages/AddProduct/AddProduct";
+import { useRoute } from "@react-navigation/native";
 
 export default function TabsWork() {
 
@@ -37,7 +38,6 @@ export default function TabsWork() {
                     <Ionicons name="analytics" color={"#0A3DC2"} size={25} />
                 ),
             }}
-
         />
         <Tab.Screen
             name="Search"

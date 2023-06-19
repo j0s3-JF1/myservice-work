@@ -63,7 +63,25 @@ const ProductView = () => {
                     bottom: PixelRatio.getPixelSizeForLayoutSize(30)
                 }}
             >
-                <ImageProduct />
+                <View
+                    style={{
+                        width: PixelRatio.getPixelSizeForLayoutSize(55),
+                        height: PixelRatio.getPixelSizeForLayoutSize(55),
+                        elevation: 5,
+                        borderRadius: 110,
+                        backgroundColor: '#FFF',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Image
+                        style={{
+                            width: 200,
+                            height: 200,
+                            borderRadius: 100
+                        }}
+                    />
+                </View>
             </View>
             <View
                 style={{

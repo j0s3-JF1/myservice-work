@@ -13,6 +13,9 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 
+//importação de Hook
+import { AcessoHook } from "../../Hook/Acesso/Acesso";
+
 export default function ProductSpace() {
 
     //Navegação
@@ -42,12 +45,6 @@ export default function ProductSpace() {
     };
 
 
-    // const handleItemSelected = (itemValue) => {
-    //     const selected = data.find((item) => item.id === itemValue);
-    //     setSelectedItem(selected);
-    // };
-
-
 
     function teste() {
         console.log(body);
@@ -57,22 +54,11 @@ export default function ProductSpace() {
     const [nome, setNome] = useState("");
     const [desc, setDesc] = useState("");
     const [preco, setPreco] = useState("");
-
+    const imagem = "https://northeasttrainingservices.co.uk/wp-content/uploads/2020/11/no-image-2.png";
     const id_work = 1
-    const [acessos, setAcesso] = useState("");
 
     //Tipo de acesso do ID
-    useEffect(() => {
-        fetch('https://my-service-server.azurewebsites.net/api/Trabalhador/acesso?id=' + id_work, {
-            method: 'GET',
-        })
-            .then((response) => response.json())
-            .then((json) => setAcesso(json))
-            .catch((err) => {
-                console.log(err);
-                alert('Erro ao encontrar acesso');
-            })
-    })
+    const { acessos } = AcessoHook();
 
     function teste(){
         if (acessos.acesso == 'Empresa') {
@@ -85,9 +71,9 @@ export default function ProductSpace() {
     
     //Cadastro de Produto
     
-    function Cadastro() {
+    async function Cadastro() {
 
-        const body = { nome, descricao: desc, categoria: selectedItem, preco, id_work }
+        const body = { nome, descricao: desc, categoria: selectedItem, preco, imagem, id_work }
 
         if (acessos.acesso == 'Empresa') {
 
