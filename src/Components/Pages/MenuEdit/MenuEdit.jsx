@@ -2,18 +2,23 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, PixelRatio } from "react-native";
 import { Alert } from "react-native";
+import { DadosUsuario } from '../Login/SalvarJwt/AuthContext';
 
 const MenuProfile = () => {
 
     //Navegação de telas
     const navigation = useNavigation();
 
-    //ID do usuario ------------------> Apenas para teste
-    const id = 1;
+    const [usuario, setUsuario] = useState();
+    
+    async function Dados(){
+        const jwt = DadosUsuario();
+        setUsuario(jwt);
+        DeletarUsuario(jwt.ID);
+    }
 
     // Função de deletar usuario
-    const DeletarUsuario = () => {
-
+    function DeletarUsuario(id){
         fetch("https://my-service-server.azurewebsites.net/api/trabalhador/" + id, {
             method: 'DELETE',
             headers: {

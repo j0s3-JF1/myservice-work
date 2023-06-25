@@ -6,15 +6,25 @@ import { TouchableOpacity } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from "@react-navigation/native";
 
+//Importe de Hook
+import {UsuarioHook} from '../../../Hook/Usuario/Usuario';
+
 const Worker = () => {
 
     //campos de informações
+    const { usuario, isLoading } =  UsuarioHook();
 
-    const id = 1 // valor virá apartir do token do usuario
+    const NovoNome = (novoTexto) => {
+        setNovaDescricao(novoTexto);
+    };
+
+    function teste(){
+        console.log(usuario.nome)
+    }
 
     //Dados
-    const [image, setImage] = useState("");
-    const [nome, setNome] = useState("");
+    const [image, setImage] = useState(usuario.imagem);
+    const [nome, setNome] = useState(usuario.nome);
     const [sobrenome, setSobrenome] = useState("")
     const [telefone, setTelefone] = useState("")
     const [instagram, setInstagram] = useState("")
@@ -93,6 +103,7 @@ const Worker = () => {
                     placeholder='Nome'
                     placeholderTextColor='#131212'
                     onChangeText={(texto) => setNome(texto)}
+                    value={nome}
                 />
             </View>
             <View style={styles.InputArea}>
@@ -151,7 +162,7 @@ const Worker = () => {
                 />
             </View>
             <View style={{ width: '60%', height: '7%', top: "5%" }}>
-                <TouchableOpacity style={styles.buttonUpdate} onPress={DataUpdateWork}>
+                <TouchableOpacity style={styles.buttonUpdate} onPress={teste}>
                     <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 20 }}>Atualizar</Text>
                 </TouchableOpacity>
             </View>

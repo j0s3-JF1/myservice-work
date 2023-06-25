@@ -19,6 +19,7 @@ import EditProduct from "../Pages/ProductView/EditProduct/EditProduct";
 import Edit from "../Pages/MenuEdit/Edit/Edit";
 import Analytics from "../Pages/Analytics/Analytics";
 import AddProduct from "../Pages/AddProduct/AddProduct";
+import SearchResult from "../Pages/Search/Result/SearchResult";
 
 export default function Routes(){
 
@@ -120,6 +121,13 @@ export default function Routes(){
             <Stack.Screen
                 name="Edit"
                 component={Edit}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
+                name="SearchResult"
+                component={SearchResult}
                 options={{
                     headerShown: false
                 }}

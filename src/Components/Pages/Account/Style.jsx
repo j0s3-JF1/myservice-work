@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { PixelRatio, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
@@ -12,9 +12,9 @@ const styles = StyleSheet.create({
 
     Logo: {
         resizeMode: 'stretch',
-        width: 320,
-        height: 60,
-        bottom: '12%',
+        width: PixelRatio.getPixelSizeForLayoutSize(80),
+        height: PixelRatio.getPixelSizeForLayoutSize(15),
+        bottom: PixelRatio.getPixelSizeForLayoutSize(50),
     },
 
     title: {
@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
         fontSize: 25,
         lineHeight: 33,
         fontVariant: 'small-caps',
-        bottom: '10%',
+        bottom: PixelRatio.getPixelSizeForLayoutSize(30),
     },
 
     buttonEnterprise: {
-        width: '70%',
-        height: '10%',
+        width: PixelRatio.getPixelSizeForLayoutSize(100),
+        height: PixelRatio.getPixelSizeForLayoutSize(30),
         backgroundColor: '#FFF',
         justifyContent: 'center',
         alignItems: 'center',
@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
     },
 
     buttonWorker: {
-        width: '70%',
-        height: '10%',
-        top: '5%',
+        width: PixelRatio.getPixelSizeForLayoutSize(100),
+        height: PixelRatio.getPixelSizeForLayoutSize(30),
+        top: PixelRatio.getPixelSizeForLayoutSize(10),
         backgroundColor: '#FFF',
         justifyContent: 'center',
         alignItems: 'center',

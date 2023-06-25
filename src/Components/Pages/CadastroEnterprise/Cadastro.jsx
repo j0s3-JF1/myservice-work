@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 
 //Importação de estilo
 import styles from './Style'
+import { PixelRatio } from "react-native";
 
 export default function CadastroEnterprise() {
 
@@ -35,7 +36,7 @@ export default function CadastroEnterprise() {
         } else {
             if (senha == confirma) {
 
-                fetch('https://my-service-server.azurewebsites.net/api/trabalhador', {
+                fetch('https://my-service-server.azurewebsites.net/api/Auth/CadastroWorker', {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)
@@ -68,6 +69,7 @@ export default function CadastroEnterprise() {
                 fontSize: 25,
                 lineHeight: 33,
                 fontVariant: 'small-caps',
+                top: PixelRatio.getPixelSizeForLayoutSize(2)
             }}>
                 EMPRESA
             </Text>

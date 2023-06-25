@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { PixelRatio, StyleSheet } from "react-native";
 import {useFonts, Poppins_600SemiBold, Poppins_400Regular, Poppins_500Medium} from '@expo-google-fonts/poppins';
 
 const styles = StyleSheet.create({
@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
 
     Logo: {
         resizeMode: 'stretch',
-        width: 320,
-        height: 60,
-        bottom: '12%',
+        width: PixelRatio.getPixelSizeForLayoutSize(95),
+        height: PixelRatio.getPixelSizeForLayoutSize(18),
+        bottom: PixelRatio.getPixelSizeForLayoutSize(40),
     },
 
     title: {
@@ -26,11 +26,10 @@ const styles = StyleSheet.create({
         fontSize: 25,
         lineHeight: 33,
         fontVariant: 'small-caps',
-        top: '0%',
     },
 
     containerInput: {
-        top: '3%',
+        top: PixelRatio.getPixelSizeForLayoutSize(10),
     },
 
     emailArea: {
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
 
     emailIcon: {
         width: '15%',
-        height: 50,
+        height: 60,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         elevation: 2,
-        top: '8%',
+        top: PixelRatio.getPixelSizeForLayoutSize(25),
     },
 
     textButton: {
@@ -110,12 +109,12 @@ const styles = StyleSheet.create({
     info: {
         alignContent: 'center',
         justifyContent: 'center',
-        top: '12%'
+        top: PixelRatio.getPixelSizeForLayoutSize(35),
     },
 
     SocialMedia: {
         flexDirection: 'row',
-        top: '30%'
+        top: PixelRatio.getPixelSizeForLayoutSize(45),
     },
 
     buttonGoogle: {
@@ -124,7 +123,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         backgroundColor: '#FFF',
         elevation: 2,
-        right: '15%'
+        right: PixelRatio.getPixelSizeForLayoutSize(5),
     },
 
     buttonFacebook: {
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         backgroundColor: '#FFF',
         elevation: 2,
-        left: '15%'
+        left: PixelRatio.getPixelSizeForLayoutSize(5)
     },
 
     google: {
@@ -155,7 +154,7 @@ const styles = StyleSheet.create({
     },
 
     textCadastro: {
-        top: '40%',
+        top: PixelRatio.getPixelSizeForLayoutSize(60),
         flexDirection: 'row'
     },
 })

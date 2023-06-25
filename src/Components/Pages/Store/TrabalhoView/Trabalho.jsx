@@ -1,6 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, TouchableOpacity, PixelRatio, StyleSheet } from "react-native";
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    PixelRatio,
+    StyleSheet,
+    Image
+} from "react-native";
 
 const Trabalho = ({ work }) => {
 
@@ -8,20 +15,67 @@ const Trabalho = ({ work }) => {
     const navigation = useNavigation();
     //Parametro
     const params = {
+        id: work.id,
         nome: work.produto_Nome,
         categoria: work.produto_Categoria,
         descricao: work.produto_Descricao,
         preco: work.produto_Preco,
+        instagram: work.empresa_Insta,
+        imagem: work.produto_Imagem,
     }
 
     return (
         <TouchableOpacity
-            style={styles.button}
+            style={{
+                width: '80%',
+                height: PixelRatio.getPixelSizeForLayoutSize(70),
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#FFF',
+                elevation: 5,
+                borderRadius: 10,
+                marginTop: PixelRatio.getPixelSizeForLayoutSize(5)
+            }}
             activeOpacity={0.8}
             onPress={() => navigation.navigate('ProductView', params)}
         >
-            <Text>{work.produto_Nome}</Text>
-            <Text>{work.produto_Categoria}</Text>
+            <View
+                style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '90%',
+                    height: '60%',
+                }}
+            >
+                <Image
+                    source={{ uri: work?.produto_Imagem }}
+                    style={{
+                        width: PixelRatio.getPixelSizeForLayoutSize(35),
+                        height: PixelRatio.getPixelSizeForLayoutSize(35)
+                    }}
+                />
+            </View>
+            <View
+                style={{
+                    width: '90%',
+                    height: PixelRatio.getPixelSizeForLayoutSize(1),
+                    backgroundColor: '#000',
+                    margin: PixelRatio.getPixelSizeForLayoutSize(2)
+                }}
+            ></View>
+            <Text
+                style={{
+                    fontWeight: 'bold',
+                    fontSize: PixelRatio.getPixelSizeForLayoutSize(7)
+                }}
+            >
+                {work?.produto_Nome}
+            </Text>
+            <Text
+                style={{
+                    fontWeight: '600'
+                }}
+            >R$ {work?.produto_Preco}</Text>
         </TouchableOpacity>
     );
 }

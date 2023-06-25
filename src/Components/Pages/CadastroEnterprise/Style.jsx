@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
 
     Logo: {
         resizeMode: 'stretch',
-        width: '80%',
-        height: 60,
+        width: PixelRatio.getPixelSizeForLayoutSize(80),
+        height: PixelRatio.getPixelSizeForLayoutSize(15),
     },
 
     title: {
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         lineHeight: 33,
         fontVariant: 'small-caps',
-        top: PixelRatio.getPixelSizeForLayoutSize(7)
+        top: PixelRatio.getPixelSizeForLayoutSize(5)
     },
 
     containerInput: {

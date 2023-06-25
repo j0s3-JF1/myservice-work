@@ -1,30 +1,78 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, TextInput, TouchableOpacity, Image, Switch } from "react-native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import jwtDecode from "jwt-decode";
+import axios from "axios";
+import { ChecarLoginUsuario, SalvarJWT } from "./SalvarJwt/AuthContext";
+
+//Importe de Hook
+import { AcessoHook } from '../../Hook/Acesso/Acesso';
 
 //Importação de Estilo
 import styles from "./Style";
 
 export default function Login() {
 
-    //Parametros
-    const params = {
-        nome: 'José',
-    }
-
-
     //Constate de navegação
     const navigation = useNavigation();
 
-    //Password input
+    //Dados para login
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    //Password hide
     const [hidePass, setHide] = useState(true)
 
     // Switch Button
     const [isEnable, setEnable] = useState(true);
     const [text, setText] = useState(null);
 
+
+    //Verificar token do usuario
+    useEffect(() => {
+        VerificarLogin();
+    }, []);
+
+    //Função de Verificar login
+    async function VerificarLogin() {
+        // Constante para verificar token do usuario
+        const usuariologado = await ChecarLoginUsuario();
+        if (usuariologado) {
+            navigation.navigate('Tab');
+        }
+    }
+
+    //Função de Login
+    function Login() {
+        if (email == "" || password == "") {
+            alert('Preencha todos os campos');
+        } else {
+            const formData = new URLSearchParams();
+            formData.append('email', email);
+            formData.append('senha', password);
+            console.log(formData)
+            axios.post('https://my-service-server.azurewebsites.net/api/Auth/LoginWorker', formData.toString(), {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+                .then((response) => {
+                    SalvarJWT(response.data.token);
+                })
+                .then(() => navigation.navigate("Tab"))
+                .then(() => {
+                    alert("Login Efetuado com sucesso!")
+                })
+                .catch((err) => {
+                    console.log(err);
+                    alert('Usuario e/ou senha invalidos!')
+                })
+        }
+    }
+
+    //Função de Lembrar Login
     const tootleSwitch = () => {
         if (isEnable) {
             setText('Inactivate')
@@ -35,46 +83,26 @@ export default function Login() {
         setEnable(previousState => !previousState)
     }
 
-    //Botão Cadastro
+    //Botão Tela de Cadastro
     const CadastroScreen = () => {
         navigation.navigate('Conta')
-    }
-
-    const [email, setEmail] = useState("");
-    const HomeScreen = () => {
-
-        //Sistema de validação de campo
-
-        if (email == "" && password == "") {
-            alert('Preencha os campos!');
-        }
-        else {
-            navigation.navigate('Tab', params);
-        }
     }
 
     return (
         <View style={styles.container}>
             <Image source={require('../../../../assets/MyService_Logo.png')} style={styles.Logo} />
-            <Text style={{
-                color: '#0A3DC2',
-                fontFamily: 'Poppins_600SemiBold',
-                fontStyle: 'normal',
-                fontWeight: 'bold',
-                fontSize: 25,
-                lineHeight: 33,
-                fontVariant: 'small-caps',
-                bottom: '12%'
-            }}>
-                WORK
-            </Text>
             <Text style={styles.title}>LOGIN</Text>
             <View style={styles.containerInput}>
                 <View style={styles.emailArea}>
                     <View style={styles.emailIcon}>
                         <AntDesign name="mail" size={24} color="blue" />
                     </View>
-                    <TextInput style={styles.Input} placeholder='Email' placeholderTextColor='#131212' onChange={setEmail} />
+                    <TextInput
+                        style={styles.Input}
+                        placeholder='Email'
+                        placeholderTextColor='#131212'
+                        onChangeText={(texto) => setEmail(texto)}
+                    />
                 </View>
                 <View style={styles.passwordArea}>
                     <View style={styles.lockIcon}>
@@ -117,7 +145,7 @@ export default function Login() {
                     <Text>Esqueceu a senha?</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.loginButton} onPress={() => HomeScreen()}>
+            <TouchableOpacity style={styles.loginButton} onPress={() => Login()}>
                 <Text style={styles.textButton}>LOGIN</Text>
             </TouchableOpacity>
             <View style={styles.info}>

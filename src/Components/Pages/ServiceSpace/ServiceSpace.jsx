@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 
 //Importação de Hook
 import { AcessoHook } from "../../Hook/Acesso/Acesso";
+import { DadosUsuario } from '../Login/SalvarJwt/AuthContext';
 
 export default function ServiceSpace() {
 
@@ -23,6 +24,16 @@ export default function ServiceSpace() {
 
     //Tamanho de input descrição
     const [inputHeight, setHeight] = useState("");
+
+    //envio de dados
+    const [nome, setNome] = useState("");
+    const [desc, setDesc] = useState("");
+    const [preco, setPreco] = useState("");
+    const imagem = "";
+    const id_work = usuario?.ID;
+
+    //Dados usuario
+    const [ usuario, setUsuario ] = useState();
 
     //Listagem de categorias
     const [data, setData] = useState([]);
@@ -44,15 +55,14 @@ export default function ServiceSpace() {
         setSelectedItem(itemValue);
     };
 
-    //envio de dados
-    const [nome, setNome] = useState("");
-    const [desc, setDesc] = useState("");
-    const [preco, setPreco] = useState("");
-    const imagem = "";
-    const id_work = 1
+    async function Dados(){
+        const jwt = await DadosUsuario();
+        setUsuario(jwt);
+    }
 
-    //Tipo de acesso do ID
-    const { acessos } = AcessoHook();
+    useEffect(() => {
+        Dados();
+    }, [])
 
     
     //Cadastro de Produto
@@ -61,7 +71,7 @@ export default function ServiceSpace() {
         
         const body = { nome, descricao: desc, categoria: selectedItem, preco, imagem, id_work }
         
-        if (acessos.acesso == 'Empresa') {
+        if (usuario?.Acesso == 'Empresa') {
 
             fetch('https://my-service-server.azurewebsites.net/api/ServicoE_', {
                 method: 'POST',

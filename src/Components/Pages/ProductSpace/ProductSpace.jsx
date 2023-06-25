@@ -12,9 +12,8 @@ import {
 import { SelectList } from "react-native-dropdown-select-list";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
+import {DadosUsuario} from '../Login/SalvarJwt/AuthContext';
 
-//importação de Hook
-import { AcessoHook } from "../../Hook/Acesso/Acesso";
 
 export default function ProductSpace() {
 
@@ -23,6 +22,17 @@ export default function ProductSpace() {
 
     //Tamanho de input descrição
     const [inputHeight, setHeight] = useState("");
+    
+    //Usuario
+    const [ usuario, setUsuario ] = useState();
+
+    //envio de dados
+    const [nome, setNome] = useState("");
+    const [desc, setDesc] = useState("");
+    const [preco, setPreco] = useState("");
+    const imagem = "https://northeasttrainingservices.co.uk/wp-content/uploads/2020/11/no-image-2.png";
+    const id_work = usuario?.ID;
+
 
     //Listagem de categorias
     const [data, setData] = useState([]);
@@ -44,38 +54,25 @@ export default function ProductSpace() {
         setSelectedItem(itemValue);
     };
 
-
-
-    function teste() {
-        console.log(body);
+    async function Dados(){
+        const jwt = await DadosUsuario();
+        setUsuario(jwt);
     }
 
-    //envio de dados
-    const [nome, setNome] = useState("");
-    const [desc, setDesc] = useState("");
-    const [preco, setPreco] = useState("");
-    const imagem = "https://northeasttrainingservices.co.uk/wp-content/uploads/2020/11/no-image-2.png";
-    const id_work = 1
-
-    //Tipo de acesso do ID
-    const { acessos } = AcessoHook();
+    useEffect(() => {
+        Dados();
+    }, []);
 
     function teste(){
-        if (acessos.acesso == 'Empresa') {
-            console.log(acessos.acesso,true)
-        } else{
-            console.log(acessos.acesso, false)
-        }
+        console.log(body)
     }
-
+    
     
     //Cadastro de Produto
+    const body = { nome, descricao: desc, categoria: selectedItem, preco, imagem, id_work }
     
     async function Cadastro() {
-
-        const body = { nome, descricao: desc, categoria: selectedItem, preco, imagem, id_work }
-
-        if (acessos.acesso == 'Empresa') {
+        if (usuario?.Acesso == 'Empresa') {
 
             fetch('https://my-service-server.azurewebsites.net/api/ProdutoE_', {
                 method: 'POST',
@@ -83,7 +80,8 @@ export default function ProductSpace() {
                 body: JSON.stringify(body),
             })
                 .then((response) => {
-                    alert('Cadastro efetuado com sucesso!', acessos.acesso)
+                    alert('Cadastro efetuado com sucesso!')
+                    console.log(body)
                 })
                 .then(() => {
                     navigation.navigate('Analytics')
@@ -93,14 +91,15 @@ export default function ProductSpace() {
                     alert('Produto não cadastrado');
                 })
 
-        } else if (acessos.acesso == 'Trabalhador') {
+        } else if (usuario?.Acesso == 'Trabalhador') {
             fetch('https://my-service-server.azurewebsites.net/api/ProdutoT_', {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body),
             })
                 .then((response) => {
-                    alert('Cadastro efetuado com sucesso!', acessos.acesso)
+                    alert('Cadastro efetuado com sucesso!')
+                    console.log(body)
                 })
                 .then(() => {
                     navigation.navigate('Analytics')

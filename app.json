@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/tela_inicial.png",
+      "image": "./assets/Tela_Loading.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },

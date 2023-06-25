@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 export const AcessoHook = () => {
     //ID do usuario ----------> Apenas como exemplo
     const id = 1;
-
     //Acesso do usuario
     const [acessos, setAcessos] = useState("");
     const [isLoading, setLoading] = useState(true);

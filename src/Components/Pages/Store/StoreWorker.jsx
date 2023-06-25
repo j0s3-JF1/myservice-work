@@ -8,53 +8,48 @@ import {
     ScrollView,
     ActivityIndicator,
     Image,
+    RefreshControl
 } from "react-native";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { DadosUsuario } from "../Login/SalvarJwt/AuthContext";
 
 //Componentes
-import Profile from "../../Profile/Profile";
 import Trabalho from "./TrabalhoView/Trabalho";
 import Servico from "./ServicoView/Servico";
-import Loading from "../../Loading/Loading";
 
-const StoreWorker =  ({param}) => {
+const StoreWorker = () => {
 
     //Navegação de tela
     const navigation = useNavigation();
 
-    //Identificação
-    const id = param;
+    //Escolher tela
+    const [changeScreen, setChangeScreen] = useState(true);
 
-    const [changeScreen, setChangeScreen] = useState(true)
+    //Listagem do usuario por id
+    const [usuario, setUsuario] = useState("");
+
+    //Pegar trabalhos do usuario
+    const [trabalhos, setTrabalho] = useState([]);
+
+    //Pegar Serviços do usuario
+    const [servicos, setServicos] = useState([]);
+
+    //Refresh de pagina
+    const [refreshing, setRefreshing] = useState(false); // Estado para controlar o carregamento
+
+    async function Dados() {
+        const jwt = await DadosUsuario();
+        setUsuario(jwt);
+        BuscaDados(jwt.ID);
+    }
 
     const toogleScreen = () => {
         setChangeScreen(!changeScreen);
     };
 
-    //Listagem do usuario por id
-    const [usuario, setUsuario] = useState("");
+    function BuscaDados(id) {
 
-    //trabalhador
-    useEffect(() => {
-        fetch('https://my-service-server.azurewebsites.net/api/trabalhador/' + id, {
-            method: 'GET',
-        })
-            .then((response) => response.json())
-            .then((json) => setUsuario(json))
-            .catch((err) => {
-                console.log(err);
-                alert('Usuario não encontrado');
-            })
-    })
-
-    //Pegar trabalhos do usuario
-    const [trabalhos, setTrabalho] = useState([]);
-    //Pegar Serviços do usuario
-    const [servicos, setServicos] = useState([]);
-
-    //Produtos
-    useEffect(() => {
         fetch('https://my-service-server.azurewebsites.net/api/TrabalhadorProdutos/Trabalhador?id=' + id, {
             method: 'GET',
         })
@@ -64,11 +59,8 @@ const StoreWorker =  ({param}) => {
             .catch((err) => {
                 console.log(err);
                 alert('Usuario não contem nenhum Produto')
-            })
-    }, []);
+            });
 
-    //Serviços
-    useEffect(() => {
         fetch('https://my-service-server.azurewebsites.net/api/TrabalhadorServico/Trabalhador?id=' + id, {
             method: 'GET',
         })
@@ -79,6 +71,34 @@ const StoreWorker =  ({param}) => {
                 console.log(err);
                 alert('Usuario não contem nenhum Produto')
             })
+    }
+
+    const onRefresh = () => {
+        setRefreshing(true); // Iniciar a animação de carregamento
+    
+        const fetchDataPromise = new Promise((resolve, reject) => {
+          BuscarDados(usuario.ID); // Buscar novamente os dados
+    
+          setTimeout(() => {
+            reject(new Error('Timeout')); // Rejeitar a Promise após o tempo limite de 5 segundos
+          }, 5000);
+        });
+    
+        fetchDataPromise
+          .then(() => {
+            alert('Dados buscados com sucesso')
+          })
+          .catch((error) => {
+            console.log(error);
+            alert('Erro ao buscar novos dados');
+          })
+          .finally(() => {
+            setRefreshing(false); // Parar a animação de carregamento
+          });
+      };
+
+    useEffect(() => {
+        Dados();
     }, []);
 
     return (
@@ -121,7 +141,7 @@ const StoreWorker =  ({param}) => {
                     }}
                 >
                     <Image
-                        source={{ uri: usuario.imagem }}
+                        source={{ uri: usuario.Imagem }}
                         style={{
                             width: 100,
                             height: 100,
@@ -129,8 +149,24 @@ const StoreWorker =  ({param}) => {
                         }}
                     />
                 </View>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', top: '1%' }}>{usuario.nome}</Text>
-                <Text style={{ fontSize: 15, fontWeight: '300', top: '1%' }}>{usuario.empresa}</Text>
+                <Text
+                    style={{
+                        fontSize: 25,
+                        fontWeight: 'bold',
+                        top: '1%'
+                    }}
+                >
+                    {usuario.Nome}
+                </Text>
+                <Text
+                    style={{
+                        fontSize: 15,
+                        fontWeight: '300',
+                        top: '1%'
+                    }}
+                >
+                    {usuario.Empresa}
+                </Text>
                 <View style={{
                     width: PixelRatio.getPixelSizeForLayoutSize(130),
                     height: PixelRatio.getPixelSizeForLayoutSize(1),
@@ -166,6 +202,9 @@ const StoreWorker =  ({param}) => {
                     width: '100%',
                 }}
                 showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
             >
                 <View style={{
                     width: '100%',

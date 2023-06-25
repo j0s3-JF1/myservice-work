@@ -3,10 +3,13 @@ import { useNavigation } from "@react-navigation/native";
 
 //importe de Hook
 import { AcessoHook } from '../../../Hook/Acesso/Acesso';
+import { DadosUsuario } from "../../Login/SalvarJwt/AuthContext";
 
 //Importção de componentes
 import Enterprise from "./Enterprise";
 import Worker from "./Worker";
+import { View } from "react-native";
+import Loading from "../../../Loading/Loading";
 
 //importe de estilização
 
@@ -15,21 +18,27 @@ export default function Edit() {
     //navegação
     const navigation = useNavigation();
 
-    //campos de informações
-    const id = 3 // valor virá apartir do token do usuario
+    //Carregamento de Página
+    const [isloading, setLoading] = useState(true);
 
-    //Verificação de acesso
-    const { acessos } = AcessoHook();
+    //Dados do usuario
+    const [usuario, setUsuario] = useState();
 
-    if (acessos.acesso == 'Trabalhador') {
-        return (
-            <Worker/>
-        );
+    async function Dados() {
+        const jwt = await DadosUsuario();
+        setUsuario(jwt);
     }
 
-    if (acessos.acesso == 'Empresa') {
-        return(
-            <Enterprise param={id}/>
-        )
-    }
+    useEffect(() => {
+        Dados();
+        setLoading(false)
+    }, [])
+
+    return (
+        <View>
+            {isloading && <Loading/>}
+            {usuario?.Acesso == "Empresa" && <Enterprise />}
+            {usuario?.Acesso == "Trabalhador" && < Worker />}
+        </View>
+    );
 }

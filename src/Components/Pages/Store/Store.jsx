@@ -9,7 +9,7 @@ import {
     ActivityIndicator,
     Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 //importação de Hook
 import { AcessoHook } from "../../Hook/Acesso/Acesso";
@@ -18,34 +18,34 @@ import { AcessoHook } from "../../Hook/Acesso/Acesso";
 import Loading from "../../Loading/Loading";
 import StoreEnterprise from "./StoreEnterprise";
 import StoreWorker from "./StoreWorker";
+import { DadosUsuario } from "../Login/SalvarJwt/AuthContext";
 
 export default function Store() {
 
     //Navegação de tela
     const navigation = useNavigation();
-    //Tela de loading
-    
 
-    const id = 1;
+    //Loading de dados
+    const [isLoading, setLoading] = useState(true)
 
-    const { acessos, isLoading } = AcessoHook();
+    //Verificação de acesso
+    const [usuario, setUsuario] = useState();
 
-    if (isLoading)
-        return (
-            <Loading />
-        );
-
-    if (acessos.acesso == "Empresa") {
-        return (
-            <StoreEnterprise
-                param={id}
-            />
-        );
-    } else {
-        return (
-            <StoreWorker
-                param={id}
-            />
-        )
+    async function Dados() {
+        const jwt = await DadosUsuario();
+        setUsuario(jwt);
     }
+
+    useFocusEffect(() => {
+        Dados();
+        setLoading(false)
+    });
+
+    return (
+        <View>
+            {isLoading && <Loading />}
+            {usuario?.Acesso == "Empresa" && <StoreEnterprise />}
+            {usuario?.Acesso == "Trabalhador" && <StoreWorker />}
+        </View>
+    );
 }

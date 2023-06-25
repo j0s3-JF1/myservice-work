@@ -7,13 +7,14 @@ import {
     StyleSheet,
     PixelRatio,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    Alert
 } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-//Importação de Hook
-import { AcessoHook } from "../../../Hook/Acesso/Acesso";
+//Importação de dados do usuario
+import { DadosUsuario } from "../../Login/SalvarJwt/AuthContext";
 
 const EditProduct = () => {
 
@@ -23,12 +24,13 @@ const EditProduct = () => {
     //parametro + rota
     const route = useRoute();
 
-    const { nome, descricao, categoria, preco } = route.params;
-
-    const { acessos } = AcessoHook();
+    const { ident, nome, descricao, categoria, preco } = route.params;
 
     //Tamanho da input
     const [inputHeight, setHeight] = useState("");
+
+    //Dados usuario
+    const [ usuario, setUsuario] = useState();
 
     //Mudança de descriçao
     const [novonome, setNovoNome] = useState(nome);
@@ -70,17 +72,23 @@ const EditProduct = () => {
         setNovoPreco(novoTexto);
     }
 
+    async function Dados(){
+        const jwt = await DadosUsuario();
+        setUsuario(jwt);
+    }
+
+    useEffect(() => {
+        Dados();
+    }, [])
+
     function teste() {
         console.log(body);
     }
 
-    //Id do usuario
-    const id_user = 1;
 
     //Atualização de campos
-    const id = 1;
     const body = {
-        id,
+        id: ident,
         nome: novonome,
         descricao: novadescricao,
         categoria: novacategoria,
@@ -88,10 +96,8 @@ const EditProduct = () => {
         imagem: image
     }
 
-
-
     function Atualizar() {
-        if (acessos.acesso == 'Empresa') {
+        if (usuario?.Acesso == 'Empresa') {
             fetch('https://my-service-server.azurewebsites.net/api/ProdutoE_', {
                 method: 'PUT',
                 headers: { "Content-Type": "application/json" },
@@ -126,8 +132,21 @@ const EditProduct = () => {
         }
     }
 
+    const AlertDelete = () =>
+        Alert.alert('Deletar', 'tem certeza que deseja efetuar esta ação?', [
+            {
+                text: 'Deletar',
+                onPress: () => Delete(),
+            },
+            {
+                text: 'Cancelar',
+                onPress: () => console.log('OK Pressed'),
+                style: 'cancel'
+            }
+        ]);
+
     async function Delete() {
-        if (acessos.acesso == 'Empresa') {
+        if (usuario?.Acesso == 'Empresa') {
             fetch('https://my-service-server.azurewebsites.net/api/ProdutoE_/' + id, {
                 method: 'DELETE',
             })
@@ -161,32 +180,6 @@ const EditProduct = () => {
 
     return (
         <View style={styles.container}>
-            <View
-                style={{
-                    position: 'absolute',
-                    bottom: PixelRatio.getPixelSizeForLayoutSize(170),
-                }}
-            >
-                <TouchableOpacity
-                    style={{
-                        bottom: PixelRatio.getPixelSizeForLayoutSize(30),
-                        left: PixelRatio.getPixelSizeForLayoutSize(80)
-                    }}
-                    onPress={Delete}
-                    activeOpacity={0.5}
-                >
-                    <Entypo
-                        name="trash"
-                        color={'#F8F8F8'}
-                        size={25}
-                    />
-                </TouchableOpacity>
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity style={styles.profileButton} onPress={pickImage}>
-                        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 100 }} />}
-                    </TouchableOpacity>
-                </View>
-            </View>
             <Image
                 source={require('../../../../../assets/elipse3.png')}
                 style={{
@@ -207,11 +200,43 @@ const EditProduct = () => {
             />
             <View
                 style={{
+                    position: 'absolute',
+                }}
+            >
+                <TouchableOpacity
+                    style={{
+                        bottom: PixelRatio.getPixelSizeForLayoutSize(115),
+                        left: PixelRatio.getPixelSizeForLayoutSize(55)
+                    }}
+                    onPress={AlertDelete}
+                    activeOpacity={0.5}
+                >
+                    <Entypo
+                        name="trash"
+                        color={'#0A3DC2'}
+                        size={30}
+                    />
+                </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={styles.profileButton} onPress={pickImage}>
+                {image
+                    &&
+                    <Image
+                        source={{ uri: image }}
+                        style={{
+                            width: PixelRatio.getPixelSizeForLayoutSize(50),
+                            height: PixelRatio.getPixelSizeForLayoutSize(50),
+                            borderRadius: 100
+                        }}
+                    />
+                }
+            </TouchableOpacity>
+            <View
+                style={{
                     width: '100%',
-                    height: '100%',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    top: PixelRatio.getPixelSizeForLayoutSize(30)
+                    top: PixelRatio.getPixelSizeForLayoutSize(0)
                 }}
             >
                 <TextInput
@@ -319,13 +344,14 @@ const styles = StyleSheet.create({
     },
 
     profileButton: {
-        width: PixelRatio.getPixelSizeForLayoutSize(55),
-        height: PixelRatio.getPixelSizeForLayoutSize(55),
+        width: PixelRatio.getPixelSizeForLayoutSize(60),
+        height: PixelRatio.getPixelSizeForLayoutSize(60),
         elevation: 5,
         borderRadius: 110,
         backgroundColor: '#FFF',
         justifyContent: 'center',
         alignItems: 'center',
+        top: PixelRatio.getPixelSizeForLayoutSize(-20),
     },
 
     profile: {

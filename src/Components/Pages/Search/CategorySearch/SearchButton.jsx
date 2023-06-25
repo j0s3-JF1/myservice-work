@@ -1,9 +1,21 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
-const CategoryButton = ({servico}) => {
+const CategoryButton = ({ servico }) => {
+
+    const navigation = useNavigation();
+
+    const params = {
+        categoria: servico.categoria,
+        tipo: "servico"
+    }
+
     return (
-        <TouchableOpacity style={styles.buttonCategory}>
+        <TouchableOpacity
+            style={styles.buttonCategory}
+            onPress={() => navigation.navigate('SearchResult', params)}
+        >
             <Text>{servico.categoria}</Text>
         </TouchableOpacity>
     );

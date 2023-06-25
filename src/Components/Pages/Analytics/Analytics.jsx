@@ -5,12 +5,13 @@ import {
     TouchableOpacity,
     PixelRatio,
     ScrollView,
-    Image
+    Image,
+    RefreshControl
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 //Importação de Hook
-import { UsuarioHook } from "../../Hook/Usuario/Usuario";
+import { DadosUsuario } from "../Login/SalvarJwt/AuthContext";
 
 //importação de estilo
 import styles from './Style'
@@ -25,18 +26,28 @@ export default function Analytics() {
     //Escolher tela de Gráfico - Comentario
     const [changeScreen, setChangeScreen] = useState(true)
 
+    //Dados usuario
+    const [usuario, setUsuario] = useState("");
+
+    //Carregamento de Pagina
+
+    //Carregamento de dados
+    const [isLoading, setLoading] = useState(true);
+    
     const toogleScreen = () => {
         setChangeScreen(!changeScreen);
     };
 
-    //Loading Page
-    
+    async function Dados(){
+        const jwt = await DadosUsuario();
+        setUsuario(jwt);
+    }
 
-    //Listagem do usuario por id
-    const { usuario, isLoading } = UsuarioHook();
+    useEffect(() => {
+        Dados();
+        setLoading(false)
+    }, []); 
 
-    //Listagem de Avaliações
-    const [avaliacao, setAvaliacao] = useState([]);
 
     if (isLoading)
         return (
@@ -65,7 +76,7 @@ export default function Analytics() {
                     }}
                 >
                     <Image
-                        source={{ uri: usuario.imagem }}
+                        source={{ uri: usuario.Imagem }}
                         style={{
                             width: 100,
                             height: 100,
@@ -75,8 +86,8 @@ export default function Analytics() {
                         }}
                     />
                 </View>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', top: '1%' }}>{usuario.nome}</Text>
-                <Text style={{ fontSize: 15, fontWeight: '300', top: '1%' }}>{usuario.empresa}</Text>
+                <Text style={{ fontSize: 25, fontWeight: 'bold', top: '1%' }}>{usuario.Nome}</Text>
+                <Text style={{ fontSize: 15, fontWeight: '300', top: '1%' }}>{usuario.Empresa}</Text>
                 <View style={{
                     width: PixelRatio.getPixelSizeForLayoutSize(130),
                     height: PixelRatio.getPixelSizeForLayoutSize(1),

@@ -33,7 +33,7 @@ export default function CadastroWorker() {
             alert('Preencha todos os campos!');
         } else {
             if (senha == confirma) {
-                fetch('https://my-service-server.azurewebsites.net/api/trabalhador', {
+                fetch('https://my-service-server.azurewebsites.net/api/Auth/CadastroWorker', {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)

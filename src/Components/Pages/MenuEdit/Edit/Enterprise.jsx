@@ -6,22 +6,73 @@ import { TouchableOpacity } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from "@react-navigation/native";
 
-const Enterprise = ({param}) => {
+//importe de hook
+import { UsuarioHook } from "../../../Hook/Usuario/Usuario";
+import { DadosUsuario } from "../../Login/SalvarJwt/AuthContext";
+
+const Enterprise = () => {
 
     const navigation = useNavigation();
 
-    const id = param // valor virá apartir do token do usuario
+    //Dados do usuario
+    const [usuario, setUsuario] = useState();
+
+    async function Dados(){
+        const jwt = await DadosUsuario();
+        setUsuario(jwt);
+    }
+
+    useEffect(() => {
+        Dados();
+    },[])
+
 
     //Dados
-    const [image, setImage] = useState("");
-    const [nome, setNome] = useState("");
-    const [empresa, setEmpresa] = useState("")
-    const [telefone, setTelefone] = useState("")
-    const [instagram, setInstagram] = useState("")
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
-    const [cpf_cnpj, setDoc] = useState("");
+    const [image, setImage] = useState(usuario?.Imagem);
+    const [nome, setNome] = useState(usuario?.Nome);
+    const [empresa, setEmpresa] = useState(usuario?.Empresa);
+    const [telefone, setTelefone] = useState(usuario?.Telefone);
+    const [instagram, setInstagram] = useState(usuario?.Instagram);
+    const [email, setEmail] = useState(usuario?.Email);
+    const [senha, setSenha] = useState(usuario?.Senha);
+    const [cpf_cnpj, setDoc] = useState(usuario?.Cpf_Cnpj);
     const acesso = "Empresa";
+
+    function teste(){
+        console.log(usuario?.Nome);
+        console.log(usuario?.Empresa);
+        console.log(usuario?.Telefone);
+        console.log(usuario?.Instagram);
+        console.log(usuario?.Email);
+        console.log(usuario?.Cpf_Cnpj);
+        console.log(usuario?.Senha);
+        console.log(usuario?.Imagem)
+    }
+
+    //Constantes de valores a serem atualizados
+    const NovoNome = (novotexto) => {
+        setNome(novotexto);
+    }
+
+    const NovoEmpresa = (novotexto) => {
+        setEmpresa(novotexto);
+    }
+
+    const NovoTelefone = (novotexto) => {
+        setTelefone(novotexto);
+    }
+
+    const NovoInstagram = (novotexto) => {
+        setInstagram(novotexto);
+    }
+
+    const NovoEmail = (novotexto) => {
+        setEmail(novotexto);
+    }
+
+    const NovoSenha = (novotexto) => {
+        setSenha(novotexto);
+    }
 
     //Envio de Foto do usuario
     const pickImage = async () => {
@@ -43,7 +94,7 @@ const Enterprise = ({param}) => {
     //atualização de dados Empresa
     const DataUpdateEnterprise = () => {
 
-        const body = { id, nome, empresa,cpf_cnpj, telefone, instagram, email, senha, acesso, imagem: image }
+        const body = { id: usuario?.ID, nome, empresa, cpf_cnpj, telefone, instagram, email, senha, acesso, imagem: image }
 
         fetch('https://my-service-server.azurewebsites.net/api/Trabalhador', {
             method: 'PUT',
@@ -60,6 +111,7 @@ const Enterprise = ({param}) => {
                 console.log(err);
                 alert("Erro ao alterar as informações");
             });
+
     }
 
     return (
@@ -90,9 +142,10 @@ const Enterprise = ({param}) => {
                 </View>
                 <TextInput
                     style={styles.Input}
-                    placeholder='Nome'
+                    placeholder="Nome"
                     placeholderTextColor='#131212'
-                    onChangeText={(texto) => setNome(texto)}
+                    onChangeText={(texto) => NovoNome(texto)}
+                    value={nome}
                 />
             </View>
             <View style={styles.InputArea}>
@@ -103,7 +156,7 @@ const Enterprise = ({param}) => {
                     style={styles.Input}
                     placeholder='Empresa'
                     placeholderTextColor='#131212'
-                    onChangeText={(texto) => setEmpresa(texto)}
+                    onChangeText={(texto) => NovoEmpresa(texto)}
                 />
             </View>
             <View style={styles.InputArea}>
@@ -114,7 +167,7 @@ const Enterprise = ({param}) => {
                     style={styles.Input}
                     placeholder='Email'
                     placeholderTextColor='#131212'
-                    onChangeText={(texto) => setEmail(texto)}
+                    onChangeText={(texto) => NovoEmail(texto)}
                 />
             </View>
             <View style={styles.InputArea}>
@@ -126,7 +179,7 @@ const Enterprise = ({param}) => {
                     placeholder='Telefone'
                     placeholderTextColor='#131212'
                     maxLength={11}
-                    onChangeText={(texto) => setTelefone(texto)}
+                    onChangeText={(texto) => NovoTelefone(texto)}
                 />
             </View>
             <View style={styles.InputArea}>
@@ -135,9 +188,9 @@ const Enterprise = ({param}) => {
                 </View>
                 <TextInput
                     style={styles.Input}
-                    placeholder='Instagram'
+                    placeholder='Instagram (Usuario)'
                     placeholderTextColor='#131212'
-                    onChangeText={(texto) => setInstagram(texto)}
+                    onChangeText={(texto) => NovoInstagram(texto)}
                 />
             </View>
             <View style={styles.InputArea}>
@@ -148,11 +201,11 @@ const Enterprise = ({param}) => {
                     style={styles.Input}
                     placeholder='Senha'
                     placeholderTextColor='#131212'
-                    onChangeText={(texto) => setSenha(texto)}
+                    onChangeText={(texto) => NovoSenha(texto)}
                 />
             </View>
             <View style={{ width: '60%', height: '7%', top: "5%" }}>
-                <TouchableOpacity style={styles.buttonUpdate} onPress={DataUpdateEnterprise}>
+                <TouchableOpacity style={styles.buttonUpdate} onPress={teste}>
                     <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 20 }}>Atualizar</Text>
                 </TouchableOpacity>
             </View>

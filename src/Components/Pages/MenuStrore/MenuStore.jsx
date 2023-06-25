@@ -22,27 +22,12 @@ export default function MenuStore() {
                 source={require('../../../../assets/MyService_Logo.png')}
                 style={{
                     resizeMode: 'stretch',
-                    width: PixelRatio.getPixelSizeForLayoutSize(110),
-                    height: PixelRatio.getPixelSizeForLayoutSize(22),
+                    width: PixelRatio.getPixelSizeForLayoutSize(90),
+                    height: PixelRatio.getPixelSizeForLayoutSize(20),
                     bottom: PixelRatio.getPixelSizeForLayoutSize(240),
                     position: 'absolute'
                 }}
             />
-            <Text
-                style={{
-                    color: '#0A3DC2',
-                    fontFamily: 'Poppins_600SemiBold',
-                    fontStyle: 'normal',
-                    fontWeight: 'bold',
-                    fontSize: 25,
-                    lineHeight: 33,
-                    fontVariant: 'small-caps',
-                    bottom: PixelRatio.getPixelSizeForLayoutSize(230),
-                    position: 'absolute',
-                }}
-            >
-                WORK
-            </Text>
             <Text
                 style={{
                     fontSize: 20,

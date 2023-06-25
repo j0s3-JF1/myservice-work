@@ -8,53 +8,53 @@ import {
     ScrollView,
     ActivityIndicator,
     Image,
+    TextInput,
+    RefreshControl
 } from "react-native";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { DadosUsuario } from '../Login/SalvarJwt/AuthContext';
 
 //Componentes
-import Profile from "../../Profile/Profile";
 import Trabalho from "./TrabalhoView/Trabalho";
 import Servico from "./ServicoView/Servico";
-import Loading from "../../Loading/Loading";
 
-const StoreEnterprise =  ({param}) => {
-    
+const StoreEnterprise = () => {
+
     //Navegação de tela
     const navigation = useNavigation();
 
-    //Identificação
-    const id = param;
-
+    //Selecionar tela
     const [changeScreen, setChangeScreen] = useState(true)
-
-    const toogleScreen = () => {
-        setChangeScreen(!changeScreen);
-    };
-
-    //Listagem do usuario por id
-    const [usuario, setUsuario] = useState("");
-
-    //trabalhador
-    useEffect(() => {
-        fetch('https://my-service-server.azurewebsites.net/api/trabalhador/' + id, {
-            method: 'GET',
-        })
-            .then((response) => response.json())
-            .then((json) => setUsuario(json))
-            .catch((err) => {
-                console.log(err);
-                alert('Usuario não encontrado');
-            })
-    })
 
     //Pegar trabalhos do usuario
     const [trabalhos, setTrabalho] = useState([]);
+
     //Pegar Serviços do usuario
     const [servicos, setServicos] = useState([]);
 
-    //Produto
+    //Verificação de acesso
+    const [usuario, setUsuario] = useState();
+
+    //Loading ao entrar na página
+    const [isLoading, setLoading] = useState(true)
+
+    //Recarregamento de página
+    const [refreshing, setRefreshing] = useState(false); // Estado para controlar o carregamento
+
+
+    async function Dados() {
+        const jwt = await DadosUsuario();
+        setUsuario(jwt);
+        BuscarDados(jwt.ID);
+    }
+
     useEffect(() => {
+        Dados();
+    }, []);
+
+    //Produto
+    function BuscarDados(id) {
         fetch('https://my-service-server.azurewebsites.net/api/TrabalhadorProdutos/Empresa?id=' + id, {
             method: 'GET',
         })
@@ -63,11 +63,8 @@ const StoreEnterprise =  ({param}) => {
             .catch((err) => {
                 console.log(err);
                 alert('Usuario não contem nenhum serviço');
-            })
-    }, []);
+            });
 
-    //Serviços
-    useEffect(() => {
         fetch('https://my-service-server.azurewebsites.net/api/TrabalhadorServico/Empresa?id=' + id, {
             method: 'GET',
         })
@@ -77,7 +74,36 @@ const StoreEnterprise =  ({param}) => {
                 console.log(err);
                 alert('Usuario não contem nenhum Produto')
             })
-    }, []);
+    }
+
+
+    const toogleScreen = () => {
+        setChangeScreen(!changeScreen);
+    };
+
+    const onRefresh = () => {
+        setRefreshing(true); // Iniciar a animação de carregamento
+    
+        const fetchDataPromise = new Promise((resolve, reject) => {
+          BuscarDados(usuario.ID); // Buscar novamente os dados
+    
+          setTimeout(() => {
+            reject(new Error('Timeout')); // Rejeitar a Promise após o tempo limite de 5 segundos
+          }, 5000);
+        });
+    
+        fetchDataPromise
+          .then(() => {
+            alert('Dados buscados com sucesso')
+          })
+          .catch((error) => {
+            console.log(error);
+            alert('Erro ao buscar novos dados');
+          })
+          .finally(() => {
+            setRefreshing(false); // Parar a animação de carregamento
+          });
+      };
 
     return (
         <View style={styles.container}>
@@ -119,7 +145,7 @@ const StoreEnterprise =  ({param}) => {
                     }}
                 >
                     <Image
-                        source={{ uri: usuario.imagem }}
+                        source={{ uri: usuario?.Imagem }}
                         style={{
                             width: 100,
                             height: 100,
@@ -127,8 +153,24 @@ const StoreEnterprise =  ({param}) => {
                         }}
                     />
                 </View>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', top: '1%' }}>{usuario.nome}</Text>
-                <Text style={{ fontSize: 15, fontWeight: '300', top: '1%' }}>{usuario.empresa}</Text>
+                <Text
+                    style={{
+                        fontSize: 25,
+                        fontWeight: 'bold',
+                        top: '1%'
+                    }}
+                >
+                    {usuario?.Nome}
+                </Text>
+                <Text
+                    style={{
+                        fontSize: 15,
+                        fontWeight: '300',
+                        top: '1%'
+                    }}
+                >
+                    {usuario?.Empresa}
+                </Text>
                 <View style={{
                     width: PixelRatio.getPixelSizeForLayoutSize(130),
                     height: PixelRatio.getPixelSizeForLayoutSize(1),
@@ -164,16 +206,21 @@ const StoreEnterprise =  ({param}) => {
                     width: '100%',
                 }}
                 showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+                contentContainerStyle={{flexGrow: 1}}
             >
                 <View style={{
                     width: '100%',
-                    height: 1000,
-                    alignItems: 'center'
+                    paddingBottom: PixelRatio.getPixelSizeForLayoutSize(10),
+                    flexGrow: 1
                 }}>
                     {
                         changeScreen ?
                             <View style={{
                                 width: '100%',
+                                height: '100%',
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}

@@ -63,6 +63,7 @@ export default function TabsWork() {
         <Tab.Screen
             name="Store"
             component={Store}
+            
             options={{
                 headerShown: false,
                 tabBarIcon: () => (
