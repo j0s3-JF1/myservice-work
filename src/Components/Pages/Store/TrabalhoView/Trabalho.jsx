@@ -28,13 +28,14 @@ const Trabalho = ({ work }) => {
         <TouchableOpacity
             style={{
                 width: '80%',
-                height: PixelRatio.getPixelSizeForLayoutSize(70),
+                height: PixelRatio.getPixelSizeForLayoutSize(60),
                 justifyContent: 'center',
                 alignItems: 'center',
                 backgroundColor: '#FFF',
                 elevation: 5,
                 borderRadius: 10,
-                marginTop: PixelRatio.getPixelSizeForLayoutSize(5)
+                marginTop: PixelRatio.getPixelSizeForLayoutSize(5),
+                borderWidth: PixelRatio.getPixelSizeForLayoutSize(0.5)
             }}
             activeOpacity={0.8}
             onPress={() => navigation.navigate('ProductView', params)}
@@ -58,7 +59,7 @@ const Trabalho = ({ work }) => {
             <View
                 style={{
                     width: '90%',
-                    height: PixelRatio.getPixelSizeForLayoutSize(1),
+                    height: PixelRatio.getPixelSizeForLayoutSize(0.5),
                     backgroundColor: '#000',
                     margin: PixelRatio.getPixelSizeForLayoutSize(2)
                 }}
@@ -66,14 +67,16 @@ const Trabalho = ({ work }) => {
             <Text
                 style={{
                     fontWeight: 'bold',
-                    fontSize: PixelRatio.getPixelSizeForLayoutSize(7)
+                    fontSize: PixelRatio.getPixelSizeForLayoutSize(7),
+                    textAlign: 'center',
                 }}
             >
                 {work?.produto_Nome}
             </Text>
             <Text
                 style={{
-                    fontWeight: '600'
+                    fontWeight: '600',
+                    textAlign: 'center'
                 }}
             >R$ {work?.produto_Preco}</Text>
         </TouchableOpacity>

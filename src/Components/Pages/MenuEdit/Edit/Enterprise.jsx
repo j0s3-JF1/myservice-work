@@ -71,12 +71,8 @@ const Enterprise = () => {
 
     //atualização de dados Empresa
     const body = { id: usuario?.ID, nome, empresa, cpf_cnpj, telefone, instagram, email, senha, acesso, imagem: image }
-    
-    function teste(){
-        console.log(body)
-    }
 
-    const DataUpdateEnterprise = () => {
+    function DataUpdateEnterprise(){
         fetch('https://my-service-server.azurewebsites.net/api/Trabalhador', {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },

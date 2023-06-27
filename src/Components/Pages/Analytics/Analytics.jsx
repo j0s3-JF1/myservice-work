@@ -19,6 +19,7 @@ import styles from './Style'
 //Importação de componentes
 import Grafics from "../../Grafics/Grafics";
 import Loading from "../../Loading/Loading";
+import BarGrafic from "../../Grafics/BarGrafic";
 
 
 export default function Analytics() {
@@ -33,12 +34,12 @@ export default function Analytics() {
 
     //Carregamento de dados
     const [isLoading, setLoading] = useState(true);
-    
+
     const toogleScreen = () => {
         setChangeScreen(!changeScreen);
     };
 
-    async function Dados(){
+    async function Dados() {
         const jwt = await DadosUsuario();
         setUsuario(jwt);
     }
@@ -46,7 +47,7 @@ export default function Analytics() {
     useEffect(() => {
         Dados();
         setLoading(false)
-    }, []); 
+    }, []);
 
 
     if (isLoading)
@@ -104,13 +105,19 @@ export default function Analytics() {
                     </TouchableOpacity>
                 </View>
             </View>
-            <ScrollView style={{ top: PixelRatio.getPixelSizeForLayoutSize(120), }}>
+            <ScrollView
+                style={{
+                    top: PixelRatio.getPixelSizeForLayoutSize(120),
+                }}
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={{
                     width: '100%',
-                    height: PixelRatio.getPixelSizeForLayoutSize(300)
+                    height: PixelRatio.getPixelSizeForLayoutSize(320)
                 }}>
                     <View>
                         <Grafics />
+                        <BarGrafic />
                     </View>
                 </View>
             </ScrollView>

@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { PixelRatio } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
 const CategoryButton = ({ servico }) => {
 
@@ -16,20 +17,27 @@ const CategoryButton = ({ servico }) => {
             style={styles.buttonCategory}
             onPress={() => navigation.navigate('SearchResult', params)}
         >
-            <Text>{servico.categoria}</Text>
+            <Text
+                style={{
+                    textAlign: 'center',
+                    width: '90%'
+                }}
+            >{servico.categoria}</Text>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     buttonCategory: {
-        width: '80%',
-        height: 50,
-        margin: 5,
+        width: '70%',
+        height: PixelRatio.getPixelSizeForLayoutSize(18),
+        margin: PixelRatio.getPixelSizeForLayoutSize(2),
         backgroundColor: '#FFF',
         justifyContent: 'center',
         alignItems: 'center',
         elevation: 3,
+        borderRadius: 10,
+        borderWidth: PixelRatio.getPixelSizeForLayoutSize(0.5)
     },
 })
 

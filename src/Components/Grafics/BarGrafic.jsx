@@ -1,5 +1,6 @@
+import { AntDesign } from "@expo/vector-icons";
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, PixelRatio } from "react-native";
 import {
     LineChart,
     BarChart,
@@ -13,14 +14,13 @@ import Svg, { Circle } from 'react-native-svg';
 const BarGrafic = () => {
 
     //Dimensionamento do gráfico
-    const screenWidth = Dimensions.get("window").width;
 
     //Dados do gráfico
     const data = {
-        labels: ["January", "February", "March", "April", "May", "June"],
+        labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio"],
         datasets: [
             {
-                data: [20, 45, 28, 80, 99, 43]
+                data: [30, 45, 28, 80, 99]
             }
         ]
     };
@@ -32,10 +32,10 @@ const BarGrafic = () => {
         backgroundGradientFrom: '#ffffff',
         backgroundGradientTo: '#ffffff',
         decimalPlaces: 2, // número de casas decimais nos valores do eixo Y
-        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
         style: {
-            borderRadius: 16,
+            borderRadius: 25,
         },
         propsForDots: {
             r: '6',
@@ -46,13 +46,18 @@ const BarGrafic = () => {
     };
 
     return (
-        <View>
+        <View
+            style={{
+                width: '100%',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}
+        >
             <BarChart
-                style={{width: '100%'}}
                 data={data}
-                width={screenWidth}
-                height={220}
-                yAxisLabel="$"
+                width={PixelRatio.getPixelSizeForLayoutSize(130)}
+                height={PixelRatio.getPixelSizeForLayoutSize(85)}
+                yAxisLabel=""
                 chartConfig={chartConfig}
                 verticalLabelRotation={30}
             />

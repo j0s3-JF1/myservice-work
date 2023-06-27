@@ -50,7 +50,7 @@ export default function Search() {
     const toogleSearch = () => {
         setSearch(!search);
     }
-    
+
     return (
         <View style={{ justifyContent: 'center', width: '100%', backgroundColor: '#F8F8F8' }}>
             <View style={styles.Search}>
@@ -59,7 +59,7 @@ export default function Search() {
                 </View>
                 <TextInput placeholder="Pesquisar" style={styles.inputSearch} />
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '5%'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '5%' }}>
                 <TouchableOpacity
                     disabled={search}
                     onPress={toogleSearch}
@@ -72,7 +72,7 @@ export default function Search() {
                         elevation: 5,
                     }}
                 >
-                    <Text style={{color: '#FFF', fontWeight: 'bold'}}>Serviços</Text>
+                    <Text style={{ color: '#FFF', fontWeight: 'bold' }}>Serviços</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     disabled={!search}
@@ -86,7 +86,7 @@ export default function Search() {
                         elevation: 5,
                     }}
                 >
-                    <Text style={{color: '#0A3DC2', fontWeight: 'bold'}}>Produtos</Text>
+                    <Text style={{ color: '#0A3DC2', fontWeight: 'bold' }}>Produtos</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView showsVerticalScrollIndicator={false} style={{
@@ -97,7 +97,16 @@ export default function Search() {
                         search ?
 
                             servicos.map((servico, index) => (
-                                <CategoryButton servico={servico} key={index} />
+                                <View
+                                    style={{
+                                        width: '100%',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        flexDirection: 'row'
+                                    }}
+                                >
+                                    <CategoryButton servico={servico} key={index} />
+                                </View>
                             ))
                             :
                             produtos.map((produto, index) => (

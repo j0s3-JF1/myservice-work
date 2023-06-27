@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, PixelRatio } from "react-native";
 import {
     LineChart,
     BarChart,
@@ -13,19 +13,18 @@ import Svg, { Circle } from 'react-native-svg';
 const Grafics = () => {
 
     //Dimensionamento do gráfico
-    const screenWidth = Dimensions.get("window").width;
 
     //Dados do gráfico
     const data = {
-        labels: ["January", "February", "March", "April", "May", "June"],
+        labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho"],
         datasets: [
             {
-                data: [20, 45, 28, 80, 99, 30],
+                data: [10, 60, 20, 80, 110, 50],
                 color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
                 strokeWidth: 2
             }
         ],
-        legend: ["Rainy Days"]
+        legend: ["Ganhos Mensais"]
     };
 
     //Configuração ddo gráfico
@@ -49,12 +48,16 @@ const Grafics = () => {
     };
 
     return (
-        <View>
+        <View
+            style={{
+                width: '80%'
+            }}
+        >
             <LineChart
                 data={data}
-                width={screenWidth}
-                height={220}
-                yAxisLabel="$"
+                width={PixelRatio.getPixelSizeForLayoutSize(130)}
+                height={PixelRatio.getPixelSizeForLayoutSize(80)}
+                yAxisLabel="R$"
                 chartConfig={chartConfig}
                 bezier
                 style={{
