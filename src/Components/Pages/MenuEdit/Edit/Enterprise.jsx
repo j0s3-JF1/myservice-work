@@ -17,62 +17,39 @@ const Enterprise = () => {
     //Dados do usuario
     const [usuario, setUsuario] = useState();
 
-    async function Dados(){
+    async function Dados() {
         const jwt = await DadosUsuario();
         setUsuario(jwt);
     }
 
     useEffect(() => {
         Dados();
-    },[])
+    }, []);
+
+    useEffect(() => {
+        if (usuario) {
+            setNome(usuario?.Nome);
+            setEmpresa(usuario?.Empresa);
+            setTelefone(usuario?.Telefone);
+            setInstagram(usuario?.Instagram);
+            setEmail(usuario?.Email);
+            setSenha(usuario?.Senha);
+            setImage(usuario?.Imagem);
+            setDoc(usuario?.Cpf_Cnpj);
+        }
+    }, [usuario]);
 
 
     //Dados
-    const [image, setImage] = useState(usuario?.Imagem);
-    const [nome, setNome] = useState(usuario?.Nome);
-    const [empresa, setEmpresa] = useState(usuario?.Empresa);
-    const [telefone, setTelefone] = useState(usuario?.Telefone);
-    const [instagram, setInstagram] = useState(usuario?.Instagram);
-    const [email, setEmail] = useState(usuario?.Email);
-    const [senha, setSenha] = useState(usuario?.Senha);
-    const [cpf_cnpj, setDoc] = useState(usuario?.Cpf_Cnpj);
+    const [image, setImage] = useState("");
+    const [nome, setNome] = useState("");
+    const [empresa, setEmpresa] = useState("");
+    const [telefone, setTelefone] = useState("");
+    const [instagram, setInstagram] = useState("");
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [cpf_cnpj, setDoc] = useState("");
     const acesso = "Empresa";
-
-    function teste(){
-        console.log(usuario?.Nome);
-        console.log(usuario?.Empresa);
-        console.log(usuario?.Telefone);
-        console.log(usuario?.Instagram);
-        console.log(usuario?.Email);
-        console.log(usuario?.Cpf_Cnpj);
-        console.log(usuario?.Senha);
-        console.log(usuario?.Imagem)
-    }
-
-    //Constantes de valores a serem atualizados
-    const NovoNome = (novotexto) => {
-        setNome(novotexto);
-    }
-
-    const NovoEmpresa = (novotexto) => {
-        setEmpresa(novotexto);
-    }
-
-    const NovoTelefone = (novotexto) => {
-        setTelefone(novotexto);
-    }
-
-    const NovoInstagram = (novotexto) => {
-        setInstagram(novotexto);
-    }
-
-    const NovoEmail = (novotexto) => {
-        setEmail(novotexto);
-    }
-
-    const NovoSenha = (novotexto) => {
-        setSenha(novotexto);
-    }
 
     //Envio de Foto do usuario
     const pickImage = async () => {
@@ -82,30 +59,35 @@ const Enterprise = () => {
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64: true
         });
 
         if (result.canceled) {
-            return
+            return;
         }
 
-        setImage(result.assets[0].uri);
+        setImage('data:image/jpeg;base64, ' + result.assets[0].base64);
     };
 
     //atualização de dados Empresa
+    const body = { id: usuario?.ID, nome, empresa, cpf_cnpj, telefone, instagram, email, senha, acesso, imagem: image }
+    
+    function teste(){
+        console.log(body)
+    }
+
     const DataUpdateEnterprise = () => {
-
-        const body = { id: usuario?.ID, nome, empresa, cpf_cnpj, telefone, instagram, email, senha, acesso, imagem: image }
-
         fetch('https://my-service-server.azurewebsites.net/api/Trabalhador', {
             method: 'PUT',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
         })
             .then((response) => {
-                alert("Alterações realizadas com sucesso");
+               alert("Alterações realizadas com sucesso");
+               console.log(body);
             })
             .then(() => {
-                navigation.navigate('Store')
+                navigation.navigate('Store');
             })
             .catch((err) => {
                 console.log(err);
@@ -144,7 +126,7 @@ const Enterprise = () => {
                     style={styles.Input}
                     placeholder="Nome"
                     placeholderTextColor='#131212'
-                    onChangeText={(texto) => NovoNome(texto)}
+                    onChangeText={setNome}
                     value={nome}
                 />
             </View>
@@ -156,7 +138,8 @@ const Enterprise = () => {
                     style={styles.Input}
                     placeholder='Empresa'
                     placeholderTextColor='#131212'
-                    onChangeText={(texto) => NovoEmpresa(texto)}
+                    onChangeText={setEmpresa}
+                    value={empresa}
                 />
             </View>
             <View style={styles.InputArea}>
@@ -167,7 +150,8 @@ const Enterprise = () => {
                     style={styles.Input}
                     placeholder='Email'
                     placeholderTextColor='#131212'
-                    onChangeText={(texto) => NovoEmail(texto)}
+                    onChangeText={setEmail}
+                    value={email}
                 />
             </View>
             <View style={styles.InputArea}>
@@ -179,7 +163,8 @@ const Enterprise = () => {
                     placeholder='Telefone'
                     placeholderTextColor='#131212'
                     maxLength={11}
-                    onChangeText={(texto) => NovoTelefone(texto)}
+                    onChangeText={setTelefone}
+                    value={telefone}
                 />
             </View>
             <View style={styles.InputArea}>
@@ -190,7 +175,8 @@ const Enterprise = () => {
                     style={styles.Input}
                     placeholder='Instagram (Usuario)'
                     placeholderTextColor='#131212'
-                    onChangeText={(texto) => NovoInstagram(texto)}
+                    onChangeText={setInstagram}
+                    value={instagram}
                 />
             </View>
             <View style={styles.InputArea}>
@@ -201,11 +187,12 @@ const Enterprise = () => {
                     style={styles.Input}
                     placeholder='Senha'
                     placeholderTextColor='#131212'
-                    onChangeText={(texto) => NovoSenha(texto)}
+                    onChangeText={setSenha}
+                    value={senha}
                 />
             </View>
             <View style={{ width: '60%', height: '7%', top: "5%" }}>
-                <TouchableOpacity style={styles.buttonUpdate} onPress={teste}>
+                <TouchableOpacity style={styles.buttonUpdate} onPress={DataUpdateEnterprise}>
                     <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 20 }}>Atualizar</Text>
                 </TouchableOpacity>
             </View>
