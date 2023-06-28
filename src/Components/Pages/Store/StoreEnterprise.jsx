@@ -83,27 +83,26 @@ const StoreEnterprise = () => {
 
     const onRefresh = () => {
         setRefreshing(true); // Iniciar a animação de carregamento
-    
+
         const fetchDataPromise = new Promise((resolve, reject) => {
-          BuscarDados(usuario.ID); // Buscar novamente os dados
-    
-          setTimeout(() => {
-            reject(new Error('Timeout')); // Rejeitar a Promise após o tempo limite de 5 segundos
-          }, 5000);
+            BuscarDados(usuario.ID); // Buscar novamente os dados
+
+            setTimeout(() => {
+                reject(new Error('Timeout')); // Rejeitar a Promise após o tempo limite de 5 segundos
+            }, 5000);
         });
-    
+
         fetchDataPromise
-          .then(() => {
-            alert('Dados buscados com sucesso')
-          })
-          .catch((error) => {
-            console.log(error);
-            alert('Erro ao buscar novos dados');
-          })
-          .finally(() => {
-            setRefreshing(false); // Parar a animação de carregamento
-          });
-      };
+            .then(() => {
+                alert('Dados buscados com sucesso')
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setRefreshing(false); // Parar a animação de carregamento
+            });
+    };
 
     return (
         <View style={styles.container}>
@@ -209,18 +208,17 @@ const StoreEnterprise = () => {
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
-                contentContainerStyle={{flexGrow: 1}}
+                contentContainerStyle={{ flexGrow: 1 }}
             >
                 <View style={{
                     width: '100%',
                     paddingBottom: PixelRatio.getPixelSizeForLayoutSize(10),
-                    flexGrow: 1
+                    height: 1500
                 }}>
                     {
                         changeScreen ?
                             <View style={{
                                 width: '100%',
-                                height: '100%',
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}

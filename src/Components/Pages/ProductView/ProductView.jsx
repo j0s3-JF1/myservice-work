@@ -51,7 +51,7 @@ const ProductView = () => {
         <View style={styles.container}>
             <TouchableOpacity
                 style={{
-                    bottom: PixelRatio.getPixelSizeForLayoutSize(70),
+                    bottom: PixelRatio.getPixelSizeForLayoutSize(60),
                     left: PixelRatio.getPixelSizeForLayoutSize(60)
                 }}
                 activeOpacity={0.5}

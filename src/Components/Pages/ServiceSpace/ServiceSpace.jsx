@@ -25,15 +25,15 @@ export default function ServiceSpace() {
     //Tamanho de input descrição
     const [inputHeight, setHeight] = useState("");
 
+    //Dados usuario
+    const [ usuario, setUsuario ] = useState();
+
     //envio de dados
     const [nome, setNome] = useState("");
     const [desc, setDesc] = useState("");
     const [preco, setPreco] = useState("");
     const imagem = "";
     const id_work = usuario?.ID;
-
-    //Dados usuario
-    const [ usuario, setUsuario ] = useState();
 
     //Listagem de categorias
     const [data, setData] = useState([]);
@@ -67,9 +67,13 @@ export default function ServiceSpace() {
     
     //Cadastro de Produto
     
+    
+    function Teste(){
+        console.log(body)
+    }
+
+    const body = { nome, descricao: desc, categoria: selectedItem, preco, imagem, id_work }
     async function Cadastro() {
-        
-        const body = { nome, descricao: desc, categoria: selectedItem, preco, imagem, id_work }
         
         if (usuario?.Acesso == 'Empresa') {
 
@@ -79,7 +83,8 @@ export default function ServiceSpace() {
                 body: JSON.stringify(body),
             })
                 .then((response) => {
-                    alert('Cadastro efetuado com sucesso!')
+                    alert('Cadastro efetuado com sucesso!');
+                    console.log(body);
                 })
                 .then(() => {
                     navigation.navigate('Analytics')

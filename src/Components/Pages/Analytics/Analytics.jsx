@@ -17,9 +17,12 @@ import { DadosUsuario } from "../Login/SalvarJwt/AuthContext";
 import styles from './Style'
 
 //Importação de componentes
-import Grafics from "../../Grafics/Grafics";
 import Loading from "../../Loading/Loading";
-import BarGrafic from "../../Grafics/BarGrafic";
+
+//Importação de graficos
+
+import Grafics from "../../Grafics/Grafics";
+import PizzaGrafic from "../../Grafics/PizzaGrafic";
 
 
 export default function Analytics() {
@@ -113,11 +116,17 @@ export default function Analytics() {
             >
                 <View style={{
                     width: '100%',
-                    height: PixelRatio.getPixelSizeForLayoutSize(320)
+                    height: PixelRatio.getPixelSizeForLayoutSize(350)
                 }}>
-                    <View>
+                    <View
+                        style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%'
+                        }}
+                    >
                         <Grafics />
-                        <BarGrafic />
+                        <PizzaGrafic />
                     </View>
                 </View>
             </ScrollView>

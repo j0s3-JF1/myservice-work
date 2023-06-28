@@ -1,92 +1,87 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, PixelRatio } from "react-native";
 import {
     LineChart,
     BarChart,
     PieChart,
     ProgressChart,
     ContributionGraph,
-    StackedBarChart
+    StackedBarChart,
 } from "react-native-chart-kit";
 import Svg, { Circle } from 'react-native-svg';
 
 const PizzaGrafic = () => {
 
     //Dimensionamento do gráfico
-    const screenWidth = Dimensions.get("screen").width;
 
     //Dados do gráfico
-    const data = [
-        {
-            name: "Seoul",
-            population: 21500000,
-            color: "rgba(131, 167, 234, 1)",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: 15
-        },
-        {
-            name: "Toronto",
-            population: 2800000,
-            color: "#F00",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: 15
-        },
-        {
-            name: "Beijing",
-            population: 527612,
-            color: "red",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: 15
-        },
-        {
-            name: "New York",
-            population: 8538000,
-            color: "#ffffff",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: 15
-        },
-        {
-            name: "Moscow",
-            population: 11920000,
-            color: "rgb(0, 0, 255)",
-            legendFontColor: "#7F7F7F",
-            legendFontSize: 15
-        }
-    ];
+    const data = {
+        labels: ["Swim", "Bike", "Run"], // optional
+        data: [0.4, 0.6, 0.8]
+    };
 
     //Configuração ddo gráfico
     const chartConfig = {
 
-        backgroundColor: '#ffffff',
-        backgroundGradientFrom: '#ffffff',
-        backgroundGradientTo: '#ffffff',
+        backgroundColor: 'rgba(0,0,139,1)',
+        backgroundGradientFrom: 'rgba(0,0,139,1)',
+        backgroundGradientTo: 'rgba(0,0,255,1)',
         decimalPlaces: 2, // número de casas decimais nos valores do eixo Y
-        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+        color: (opacity = 0) => `rgba(255, 255, 255, ${opacity})`,
+        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
         style: {
-            borderRadius: 16,
+            borderRadius: 20,
         },
         propsForDots: {
             r: '6',
             strokeWidth: '2',
-            stroke: '#ffa726',
+            stroke: '#ffffff',
         },
 
     };
 
     return (
-        <View>
-            <PieChart
-                data={data}
-                width={screenWidth}
-                height={220}
-                chartConfig={chartConfig}
-                accessor={"population"}
-                backgroundColor={"transparent"}
-                paddingLeft={"15"}
-                center={[10, 50]}
-                absolute
-            />
+        <View
+            style={{
+                width: PixelRatio.getPixelSizeForLayoutSize(135),
+                height: PixelRatio.getPixelSizeForLayoutSize(100),
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: PixelRatio.getPixelSizeForLayoutSize(10),
+                backgroundColor: '#4169E1',
+                elevation: 5,
+                borderRadius: 10
+            }}
+        >
+            <Text
+                style={{
+                    fontSize: PixelRatio.getPixelSizeForLayoutSize(7),
+                    fontWeight: 'bold',
+                    color: '#fff',
+                    elevation: 5
+                }}
+            >Acessos Mensais</Text>
+            <View
+                style={{
+                    width: PixelRatio.getPixelSizeForLayoutSize(125),
+                    height: PixelRatio.getPixelSizeForLayoutSize(75),
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(0,0,255,1)',
+                    borderRadius: 10,
+                    marginTop: PixelRatio.getPixelSizeForLayoutSize(5)
+                }}
+            >
+                <ProgressChart
+                    data={data}
+                    width={PixelRatio.getPixelSizeForLayoutSize(120)}
+                    height={PixelRatio.getPixelSizeForLayoutSize(70)}
+                    strokeWidth={16}
+                    radius={32}
+                    chartConfig={chartConfig}
+                    hideLegend={false}
+                />
+            </View>
         </View>
     );
 };

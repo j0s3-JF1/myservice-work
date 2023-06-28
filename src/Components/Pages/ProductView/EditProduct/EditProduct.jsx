@@ -43,16 +43,15 @@ const EditProduct = () => {
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64: true
         });
 
-        console.log(result);
-
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
+            setImage('data:image/jpeg;base64,' + result.assets[0].base64);
         }
     };
 
@@ -82,7 +81,7 @@ const EditProduct = () => {
     }, [])
 
     function teste() {
-        console.log(body);
+        console.log(image);
     }
 
 
